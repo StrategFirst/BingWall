@@ -1,0 +1,206 @@
+[
+  {
+    "code":"at",
+    "name":"Atlantique"
+  },
+
+  {
+    "code":"au",
+    "name":"Autralie"
+  },
+
+  {
+    "code":"be",
+    "name":"Belgique"
+  },
+
+  {
+    "code":"br",
+    "name":"Brésil"
+  },
+
+  {
+    "code":"bw",
+    "name":"Botswana"
+  },
+
+  {
+    "code":"ca",
+    "name":"Canada"
+  },
+
+  {
+    "code":"ch",
+    "name":"Suisse"
+  },
+
+  {
+    "code":"cl",
+    "name":"Chili"
+  },
+
+  {
+    "code":"cn",
+    "name":"Chine"
+  },
+
+  {
+    "code":"cr",
+    "name":"Costa rica"
+  },
+
+  {
+    "code":"de",
+    "name":"Allemagne"
+  },
+
+  {
+    "code":"ec",
+    "name":"Équateur"
+  },
+
+  {
+    "code":"es",
+    "name":"Espagne"
+  },
+
+  {
+    "code":"fi",
+    "name":"Finlande"
+  },
+
+  {
+    "code":"fr",
+    "name":"France"
+  },
+
+  {
+    "code":"gr",
+    "name":"Grèce"
+  },
+
+  {
+    "code":"id",
+    "name":"Indonésie"
+  },
+
+  {
+    "code":"ie",
+    "name":"Irelande"
+  },
+
+  {
+    "code":"in",
+    "name":"Inde"
+  },
+
+  {
+    "code":"it",
+    "name":"Italie"
+  },
+
+  {
+    "code":"jp",
+    "name":"Japon"
+  },
+
+  {
+    "code":"ke",
+    "name":"Kenya"
+  },
+
+  {
+    "code":"ma",
+    "name":"Maroc"
+  },
+
+  {
+    "code":"mg",
+    "name":"Madagascar"
+  },
+
+  {
+    "code":"mx",
+    "name":"Mexique"
+  },
+
+  {
+    "code":"my",
+    "name":"Malaisie"
+  },
+
+  {
+    "code":"na",
+    "name":"Namibie"
+  },
+
+  {
+    "code":"nl",
+    "name":"PaysBas"
+  },
+
+  {
+    "code":"no",
+    "name":"Norvège"
+  },
+
+  {
+    "code":"np",
+    "name":"Népal"
+  },
+
+  {
+    "code":"nz",
+    "name":"Nouvelle Zélande"
+  },
+
+  {
+    "code":"pe",
+    "name":"Pérou"
+  },
+
+  {
+    "code":"pt",
+    "name":"Portugal"
+  },
+
+  {
+    "code":"ru",
+    "name":"Russie"
+  },
+
+  {
+    "code":"se",
+    "name":"Suède"
+  },
+
+  {
+    "code":"th",
+    "name":"Thailande"
+  },
+
+  {
+    "code":"tr",
+    "name":"Turquie"
+  },
+
+  {
+    "code":"uk",
+    "name":"Royaume Uni"
+  },
+
+  {
+    "code":"us",
+    "name":"États-Unis"
+  },
+
+  {
+    "code":"vn",
+    "name":"Vietnam"
+  },
+
+  {
+    "code":"za",
+    "name":"Afrique du sud"
+  }
+]

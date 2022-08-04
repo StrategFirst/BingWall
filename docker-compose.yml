@@ -1,0 +1,11 @@
+services:
+  scrapper:
+    image: node:18-alpine
+    working_dir: /app
+    restart: on-failure:3
+    volumes:
+     - ./src:/app
+     - ./resources:/var/resources
+     - ./config:/etc/scrapconfig
+    entrypoint: node .
+    user: $UID:$GID

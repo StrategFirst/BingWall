@@ -1,0 +1,20 @@
+{
+	"source": "https://www.bing.com",
+	"destination": "/var/resources/",
+	"dom": [
+		{
+			"path": ".downloadLink",
+			"type": "image"
+		},
+
+		{
+			"path": "#bgImgProgLoad",
+			"type": "image"
+		},
+
+		{
+			"path": ".bg_video",
+			"type": "video"
+		}
+	]
+}
