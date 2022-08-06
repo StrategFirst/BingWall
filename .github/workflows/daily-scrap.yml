@@ -1,0 +1,38 @@
+name: Daily scrap
+
+on:
+  push:
+    branches: [ "main" ]
+  schedule:
+    - cron:  '6 9 * * *'
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v3
+      
+    - name: Get node v18.x
+      run: curl https://deb.nodesource.com/setup_18.x | sudo bash - && sudo apt install nodejs
+      
+    - name: Adapt arbo (1/2)
+      run: sudo mv config /etc/scrapconfig/ && sudo chmod 777 -R /etc/scrapconfig/
+      
+    - name: Adapt arbo (2/2)
+      run: sudo mv resources /var/resources/ && sudo chmod 777 -R /var/resources/
+      
+    - name: Install dependencies
+      run: cd src/ && npm ci
+      
+    - name: Run the scrapper
+      run: cd src/ && node .
+      
+    - name: Archive result
+      uses: actions/upload-artifact@v3.0.0
+      with:
+         name: "TodaysPicture"
+         path: /var/resources/*.jpg
