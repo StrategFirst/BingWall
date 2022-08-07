@@ -1,8 +1,8 @@
 name: Daily scrap
 
 on:
-  schedule:
-    - cron:  '6 9 * * *'
+  push:
+    branches: [ "main" ]
 
 
 jobs:
