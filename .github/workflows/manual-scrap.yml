@@ -1,8 +1,11 @@
-name: Manual scrap
+name: Manual scrap 🪝
 
 on:
   push:
     branches: [ "main" ]
+
+  # enable manual run
+  workflow_dispatch:
 
 
 jobs:
