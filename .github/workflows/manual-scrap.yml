@@ -1,4 +1,4 @@
-name: Daily scrap
+name: Manual scrap
 
 on:
   push:
