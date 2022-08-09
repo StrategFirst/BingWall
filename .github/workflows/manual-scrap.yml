@@ -1,4 +1,4 @@
-name: Manual scrap 🪝
+name: Manual scrap ✋
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
 
 
 jobs:
-  scrap:
+  scrap 🪝:
 
     runs-on: ubuntu-latest
 

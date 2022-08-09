@@ -1,4 +1,4 @@
-name: Daily scrap
+name: Daily scrap ⏰
 
 on:
   schedule:
@@ -14,7 +14,7 @@ permissions:
   id-token: write
 
 jobs:
-  scrap:
+  scrap 🪝:
 
     runs-on: ubuntu-latest
 
@@ -44,26 +44,28 @@ jobs:
          path: /var/resources/*.jpg
 
   
-  deploy:
+  deploy 🚀:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    needs: scrap
+    needs: "scrap 🪝"
 
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout project
         uses: actions/checkout@v3
         
       - name: Setup Pages
         uses: actions/configure-pages@v1
         
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+      - name: Download a single artifact
+        uses: actions/download-artifact@v3
         with:
-          # Upload entire repository
-          path: '.'
+          name: TodaysPicture
+      
+      - name: Temp info
+        run: ls
           
       - name: Deploy to GitHub Pages
         id: deployment
