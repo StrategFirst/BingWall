@@ -49,8 +49,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    notify:
-      needs: scrap
+    needs: scrap
 
     runs-on: ubuntu-latest
     steps:
