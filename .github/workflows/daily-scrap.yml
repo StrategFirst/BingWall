@@ -14,7 +14,9 @@ permissions:
   id-token: write
 
 jobs:
-  scrap 🪝:
+  scrap:
+
+    name: "scrap 🪝"
 
     runs-on: ubuntu-latest
 
@@ -44,12 +46,14 @@ jobs:
          path: /var/resources/*.jpg
 
   
-  deploy 🚀:
+  deploy:
+
+    name: "deploy 🚀"
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    needs: "scrap 🪝"
+    needs: scrap
 
     runs-on: ubuntu-latest
     steps:
