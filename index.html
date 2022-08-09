@@ -5,6 +5,32 @@
 	<title> BingWall </title>
 </head>
 <body>
+	<header>
+	</header>
+
+	<aside>
+		Chargement des images...
+	</aside>
+
+	<script>
+
+		function toImageDom( path , name ) {
+			let domElem = document.createElement('img')
+			domElem.src = path;
+			domElem.alt = `Picture of ${name}, from Bings dailys images`;
+			domElem.title = name;
+			return domElem;
+		}
+
+		fetch('./resources/list.txt')
+			.then( response => response.text() )
+			.then( text => text.split`\n` )
+			.then( data => data.map( filename => [ filename.replace(/\.jpg/,'') , `./resources/${filename}` ] ) )
+			.then( paths => path.map( (args) => toImageDom(...args) ) )
+			.then( domElements => domElements.forEach( domElement => document.body.prepend(domElement) ) )
+			.then( () => document.querySelector('aside').style.display = 'none' )
+
+	</script>
 </body>
 </html>
 		
