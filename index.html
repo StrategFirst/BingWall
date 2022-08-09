@@ -3,15 +3,53 @@
 <head>
 	<meta charset="UTF-8" />
 	<title> BingWall </title>
+
+	<style>
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+		border: none;
+	}
+	  
+	html {
+		background-color: black;
+		color: #EEE;
+	}
+	  
+	body {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-content: center;
+		text-align: center;
+	}
+
+	main {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, 25rem);
+		grid-gap: 1rem;
+		justify-content: center;
+		align-content: center;
+	}
+	  
+	img {
+		width: 100%;
+	}
+
+	</style>
 </head>
 <body>
 	<header>
+		<h1> Images quotidiennes issuent de bing </h1>
+		<p> Sont présentes uniquement celles d'aujourd'hui les autres sont disponibles <a href="https://github.com/StrategFirst/BingWall/actions/workflows/daily-scrap.yml">ici</a>
 	</header>
 
 	<aside>
 		Chargement des images...
 	</aside>
 
+	<main>
 	<script>
 
 		function toImageDom( path , name ) {
@@ -25,12 +63,15 @@
 		fetch('./resources/list.txt')
 			.then( response => response.text() )
 			.then( text => text.split`\n` )
-			.then( data => data.map( filename => [ filename.replace(/\.jpg/,'') , `./resources/${filename}` ] ) )
-			.then( paths => path.map( (args) => toImageDom(...args) ) )
-			.then( domElements => domElements.forEach( domElement => document.body.prepend(domElement) ) )
+			.then( data => data.filter( line => line != '' && line != 'list.txt' ) )
+			.then( data => data.map( filename => [ `./resources/${filename}` , filename.replace(/\.jpg/,'')  ] ) )
+			.then( paths => paths.map( (args) => toImageDom(...args) ) )
+			.then( domElements => domElements.forEach( domElement => document.querySelector('main').appendChild(domElement) ) )
 			.then( () => document.querySelector('aside').style.display = 'none' )
 
 	</script>
+	</main>
+
 </body>
 </html>
 		
