@@ -16,7 +16,7 @@ permissions:
 jobs:
   scrap:
 
-    name: "scrap 🪝"
+    name: "Scrap 🪝"
 
     runs-on: ubuntu-latest
 
@@ -48,7 +48,7 @@ jobs:
   
   deploy:
 
-    name: "deploy 🚀"
+    name: "Deploy 🚀"
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -67,9 +67,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: TodaysPicture
-      
-      - name: Temp info
-        run: ls
+          path: './resources/'
+        
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Upload entire repository
+          path: '.'
           
       - name: Deploy to GitHub Pages
         id: deployment

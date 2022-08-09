@@ -10,7 +10,7 @@ on:
 
 jobs:
   scrap:
-    name: "scrap 🪝"
+    name: "Scrap 🪝"
     runs-on: ubuntu-latest
 
     steps:
