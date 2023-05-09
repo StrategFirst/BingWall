@@ -2,6 +2,9 @@
 
 # BingWall
 
+<img 
+	src="banner.png"
+	/>
 </div>
 
 Ce projet est une preuve de concept, il a pour but d'utiliser une fonctionnalité du site [bing.com](https://bing.com/) qui chaque jour partout dans le monde fournis une image quotidiennnement pour chaque régions du monde. L'objectif est de récupérer ces images pour chacune des régions.

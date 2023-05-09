@@ -43,7 +43,7 @@ jobs:
       uses: actions/upload-artifact@v3.0.0
       with:
          name: "TodaysPicture"
-         path: /var/resources/*.jpg
+         path: /var/resources/*
 
   
   deploy:
@@ -70,7 +70,7 @@ jobs:
           path: './resources/'
 
       - name: List all available images
-        run: ls ./resources/ > ./resources/list.txt
+        run: ls ./resources/*.webp > ./resources/list.txt
         
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v1
