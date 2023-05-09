@@ -50,7 +50,7 @@ async function TodayData( metadata ) {
 		.map( ([file,url]) => fileFromURL(url,`/var/resources/${file}.webp`) )
 	)
 
-	console.table( metadata )
+	await writeFile( `/var/resources/metadata.json` , JSON.stringify(metadata) )
 
 }
 TodayMetadata().then( TodayData )
