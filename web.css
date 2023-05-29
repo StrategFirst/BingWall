@@ -29,6 +29,7 @@ main {
   
 img {
     width: 100%;
+    cursor: zoom-in;
 }
 
 header {

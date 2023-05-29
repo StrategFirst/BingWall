@@ -3,6 +3,14 @@ function toImageDom( path , name ) {
     domElem.src = path;
     domElem.alt = `Picture of ${name}, from Bings dailys images`;
     domElem.title = name;
+    domElem.onclick = event => {
+        let x = document.createElement('a');
+        x.href = event.target.src;
+        x.target = '_blank';
+        document.body.appendChild(x);
+        x.click();
+        document.body.removeChild(x);
+    };
     return domElem;
 }
 
