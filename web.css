@@ -1,0 +1,45 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+}
+  
+html {
+    background-color: black;
+    color: #EEE;
+}
+  
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
+main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 25rem);
+    grid-gap: 1rem;
+    justify-content: center;
+    align-content: center;
+}
+  
+img {
+    width: 100%;
+}
+
+header {
+    font-family: monospace;
+    margin: 1rem;
+}
+
+
+a {
+    color: inherit;
+    text-decoration-style: dashed;
+    text-decoration-line: underline;
+    text-decoration-color: #EEE;
+}
