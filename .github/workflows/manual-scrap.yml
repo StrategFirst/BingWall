@@ -33,7 +33,7 @@ jobs:
       run: cd src/ && node .
       
     - name: Archive result
-      uses: actions/upload-artifact@v3.0.0
+      uses: actions/upload-artifact@v3
       with:
          name: "TodaysPicture"
          path: /var/resources/*

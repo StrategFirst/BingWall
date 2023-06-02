@@ -40,7 +40,7 @@ jobs:
       run: cd src/ && node .
       
     - name: Archive result
-      uses: actions/upload-artifact@v3.0.0
+      uses: actions/upload-artifact@v3
       with:
          name: "TodaysPicture"
          path: /var/resources/*
@@ -61,7 +61,7 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Setup Pages
-        uses: actions/configure-pages@v1
+        uses: actions/configure-pages@v3
         
       - name: Download a single artifact
         uses: actions/download-artifact@v3
