@@ -45,7 +45,25 @@ jobs:
          name: "TodaysPicture"
          path: /var/resources/*
 
-  
+  package:
+
+    name: "Package 📦"
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v3
+
+    - name: Make packages
+      run: ./test-package.sh ${{ secrets.GITHUB_TOKEN }} > test-package-log.txt
+
+    - name: Save packages list
+      uses: actions/upload-artifact@v3
+      with:
+         name: "URLPackagesList"
+         path: test-package-log.txt
+
   deploy:
 
     name: "Deploy 🚀"
