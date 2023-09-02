@@ -34,18 +34,36 @@ jobs:
       run: sudo mv resources /var/resources/ && sudo chmod 777 -R /var/resources/
       
     - name: Install dependencies
-      run: cd src/ && npm ci
+      run: cd scrap/ && npm ci
       
     - name: Run the scrapper
-      run: cd src/ && node .
+      run: cd scrap/ && node .
       
     - name: Archive result
       uses: actions/upload-artifact@v3
       with:
-         name: "TodaysPicture"
+         name: "DailyPictures"
          path: /var/resources/*
 
-  
+  package:
+
+    name: "Package 📦"
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout project
+      uses: actions/checkout@v3
+
+    - name: Packing up monthly
+      run: ./pack-up.sh "${{ secrets.GITHUB_TOKEN }}"
+
+    - name: Archive resumt
+      uses: actions/upload-artifact@v3
+      with:
+         name: "MonthlyPictures"
+         path: MonthlyPictures
+
   deploy:
 
     name: "Deploy 🚀"
@@ -53,7 +71,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    needs: scrap
+    needs: [scrap, package]
 
     runs-on: ubuntu-latest
     steps:
@@ -63,20 +81,34 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
         
-      - name: Download a single artifact
+      - name: Download daily
         uses: actions/download-artifact@v3
         with:
-          name: TodaysPicture
+          name: DailyPictures
           path: './resources/'
 
-      - name: List all available images
+      - name: List all available daily images
         run: ls ./resources/*.webp > ./resources/list.txt
+
+      - name: Group up daily into web folder
+        run: mv resources/ web/ 
+
+      - name: Download monthly
+        uses: actions/download-artifact@v3
+        with:
+          name: MonthlyPictures
+          path: './monthly-resources/'
+
+      - name: List all available monthly images
+        run: find ./monthly-resources/ -type f > ./monthly-resources/list.txt
+
+      - name: Group up montlhy into web folder
+        run: mv monthly-resources/ web/ 
         
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload entire repository
-          path: '.'
+          path: 'web'
           
       - name: Deploy to GitHub Pages
         id: deployment

@@ -4,8 +4,8 @@ services:
     working_dir: /app
     restart: on-failure:3
     volumes:
-     - ./src:/app
+     - ./scrap:/app
      - ./resources:/var/resources
      - ./config:/etc/scrapconfig
-    entrypoint: node .
+    entrypoint: sh local.sh
     user: $UID:$GID
