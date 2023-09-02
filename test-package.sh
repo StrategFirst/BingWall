@@ -10,6 +10,6 @@ for run_url in $runs; do
 		-H "Authorization: Bearer $1" \
 		"https://$run_url" \
 	  | egrep -o 'href="/StrategFirst/BingWall/suites/[0-9]+/artifacts/[0-9]+"' \
-	  | sed -e 's/href="/github.com/g' )
+	  | sed -e 's/href="/github.com/g'
 	# aria-label="Download TodaysPicture">
 done
