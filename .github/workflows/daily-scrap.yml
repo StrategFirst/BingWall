@@ -42,7 +42,7 @@ jobs:
     - name: Archive result
       uses: actions/upload-artifact@v3
       with:
-         name: "TodaysPicture"
+         name: "DailyPictures"
          path: /var/resources/*
 
   package:
@@ -55,10 +55,10 @@ jobs:
     - name: Checkout project
       uses: actions/checkout@v3
 
-    - name: Make packages
-      run: ./test-package.sh "${{ secrets.GITHUB_TOKEN }}"
+    - name: Packing up monthly
+      run: ./pack-up.sh "${{ secrets.GITHUB_TOKEN }}"
 
-    - name: Save packages list
+    - name: Archive resumt
       uses: actions/upload-artifact@v3
       with:
          name: "MonthlyPictures"
@@ -71,7 +71,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    needs: scrap
+    needs: [scrap, package]
 
     runs-on: ubuntu-latest
     steps:
@@ -81,17 +81,29 @@ jobs:
       - name: Setup Pages
         uses: actions/configure-pages@v3
         
-      - name: Download a single artifact
+      - name: Download daily
         uses: actions/download-artifact@v3
         with:
-          name: TodaysPicture
+          name: DailyPictures
           path: './resources/'
 
-      - name: List all available images
+      - name: List all available daily images
         run: ls ./resources/*.webp > ./resources/list.txt
 
-      - name: Group up into web folder
-        run: mv resources/ web/
+      - name: Group up daily into web folder
+        run: mv resources/ web/ 
+
+      - name: Download monthly
+        uses: actions/download-artifact@v3
+        with:
+          name: MonthlyPictures
+          path: './monthly-resources/'
+
+      - name: List all available monthly images
+        run: find ./monthly-resources/ -type f > ./monthly-resources/list.txt
+
+      - name: Group up montlhy into web folder
+        run: mv monthly-resources/ web/ 
         
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v1
