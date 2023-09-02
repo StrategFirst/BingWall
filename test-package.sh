@@ -1,15 +1,35 @@
 #!/bin/bash
 
-runs=$(curl --silent "https://github.com/StrategFirst/BingWall/actions/workflows/daily-scrap.yml" \
-	| egrep -o 'href="/StrategFirst/BingWall/actions/runs/[0-9]+' \
-	| sed -e 's/href="/github.com/g' )
+GITHUB_TOKEN=$1
 
+artifactURLs=$(\
+  curl \
+    --silent \
+    --location \
+    -H "Accept: application/vnd.github+json" \
+    -H "Authorization: Bearer $GITHUB_TOKEN" \
+    -H "X-GitHub-Api-Version: 2022-11-28" \
+    https://api.github.com/repos/StrategFirst/BingWall/actions/artifacts?name=TodaysPicture \
+  | grep archive_download_url \
+  | grep -E -o 'https:[^"]+/zip'
+  )
 
-for run_url in $runs; do
-	curl -L --silent \
-		-H "Authorization: Bearer $1" \
-		"https://$run_url" \
-	  | egrep -o 'href="/StrategFirst/BingWall/suites/[0-9]+/artifacts/[0-9]+"' \
-	  | sed -e 's/href="/github.com/g'
-	# aria-label="Download TodaysPicture">
+i=0
+mkdir MonthlyPictures tmp
+for artifactURL in $artifactURLs
+do
+	i=$(expr $i + 1)
+	curl \
+	  --silent \
+	  --location \
+	  --output tmp.zip \
+	  -H "Authorization: Bearer $GITHUB_TOKEN" \
+	  $artifactURL
+
+	unzip tmp.zip -d tmp/ 2> /dev/null
+	mkdir MonthlyPictures/$i
+	mv tmp/* MonthlyPictures/$i/
+	rm tmp/.gitignore
+	rm tmp.zip
 done
+rm -r tmp
