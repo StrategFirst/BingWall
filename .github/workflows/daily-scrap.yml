@@ -34,10 +34,10 @@ jobs:
       run: sudo mv resources /var/resources/ && sudo chmod 777 -R /var/resources/
       
     - name: Install dependencies
-      run: cd src/ && npm ci
+      run: cd scrap/ && npm ci
       
     - name: Run the scrapper
-      run: cd src/ && node .
+      run: cd scrap/ && node .
       
     - name: Archive result
       uses: actions/upload-artifact@v3
@@ -71,12 +71,14 @@ jobs:
 
       - name: List all available images
         run: ls ./resources/*.webp > ./resources/list.txt
+
+      - name: Group up into web folder
+        run: mv resources/ web/
         
       - name: Upload artifact for GitHub Pages
         uses: actions/upload-pages-artifact@v1
         with:
-          # Upload entire repository
-          path: '.'
+          path: 'web'
           
       - name: Deploy to GitHub Pages
         id: deployment
