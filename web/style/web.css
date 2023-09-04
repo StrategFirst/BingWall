@@ -1,0 +1,118 @@
+/** Global page style **/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    border: none;
+}
+  
+html {
+    background-color: #222;
+    color: #EEE;
+}
+  
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+}
+
+main > section > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 25rem);
+    grid-gap: 1rem;
+    justify-content: center;
+    align-content: center;
+}
+  
+img {
+    width: 100%;
+    cursor: zoom-in;
+}
+
+header {
+    font-family: monospace;
+    margin: 1rem;
+}
+
+
+a {
+    color: inherit;
+    text-decoration-style: dashed;
+    text-decoration-line: underline;
+    text-decoration-color: #EEE;
+}
+
+hr {
+    background-color: white;
+    height: 1px;
+    width:10vw;
+    margin: 1rem auto ;
+}
+
+aside {
+    position: absolute;
+    top: 0;
+    right: 0;
+    aspect-ratio: 1/1;
+    background-image: url('https://github.com/fluidicon.png');
+    background-size: cover;
+    filter: sepia(999) hue-rotate(120deg);
+}
+
+aside a {
+    width: 3rem;
+    height: 3rem;
+    display: block;
+}
+
+/** Loading animation **/
+.daily-loading, .monthly-loading {
+    position: relative;
+}
+.daily-loading:after, .monthly-loading:after {
+    content: 'Chargement en cours...';
+}
+
+.daily-loading:before, .monthly-loading:before {
+    /* Trigger visibilty */
+    content: '';
+    /* Positionning */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Make it a little dot */
+    display: block;
+    width: 15px;
+    height: 15px;
+    border-radius: 15px;
+    /* Customization */
+    background-color: #F22;
+    /* Behind text */
+    z-index: -1;
+    /* Animated it ! */
+    animation: AnimOscilate forwards infinite 4s, AnimHueRotation forwards infinite 10s;
+}
+
+@keyframes AnimOscilate {
+    from {
+        transform: translate(-4rem);
+    }
+    50%{
+        transform: translate(4rem);
+    }
+    to {
+        transform: translate(-4rem);
+    }
+}
+
+@keyframes AnimHueRotation {
+    from{
+        filter: hue-rotate(0deg);
+    }
+    to{
+        filter: hue-rotate(360deg);
+    }
+}

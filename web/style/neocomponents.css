@@ -1,0 +1,52 @@
+/*
+ * Neomorphism style for components
+ */
+
+.neo-check input {
+	display: none;
+}
+
+.neo-check div {
+	display: block;
+	width: 3em;
+	height: 3em;
+
+	border-radius: .5em;
+	background-color: #222;
+	box-shadow: -1px -1px 4px #333, 1px 1px 3px black;
+
+	cursor: pointer;
+
+	transition: .2s;
+}
+
+.neo-check:active div {
+	box-shadow: 1px 1px 4px #333, -1px -1px 3px black;
+}
+
+.neo-check > input:checked ~ div > svg {
+	fill: #2870ea;
+	stroke: #2870ea;
+	color: #2870ea;
+}
+
+.neo-check > input ~ div > :is(svg, img) {
+	fill: #666;
+	stroke: #666;
+	color: #666;
+
+	transition: 1s;
+
+	width: 100%;
+	height: 100%;
+}
+
+.neo-check > input ~ div {
+	display: grid;
+	justify-content: center;
+	align-content: center;
+	grid-template-columns: 50%;
+	grid-template-rows: 50%;
+	justify-items: center;
+	align-items: center;
+}

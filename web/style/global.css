@@ -1,14 +1,24 @@
-/** Global page style **/
+/* Reset navigator default style */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     border: none;
 }
-  
+
+/* Configuration */
+:root {
+    --bg: #222;
+    --bg-lighter: #333;
+    --bg-shadow: #000;
+
+    --txt: #EEE;
+}
+
+/* Global placement and style */
 html {
-    background-color: black;
-    color: #EEE;
+    background-color: var(--bg);
+    color: var(--txt);
 }
   
 body {
@@ -19,7 +29,23 @@ body {
     text-align: center;
 }
 
-body > * > div {
+/* Header style and placement */
+header {
+    font-family: monospace;
+    margin: 1rem;
+}
+
+header nav {
+    display: flex;
+    flex-direction: row;
+    grid-gap: 1rem;
+    align-content: center;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+/* Main content style and placement */
+main > section > div {
     display: grid;
     grid-template-columns: repeat(auto-fit, 25rem);
     grid-gap: 1rem;
@@ -32,18 +58,7 @@ img {
     cursor: zoom-in;
 }
 
-header {
-    font-family: monospace;
-    margin: 1rem;
-}
 
-
-a {
-    color: inherit;
-    text-decoration-style: dashed;
-    text-decoration-line: underline;
-    text-decoration-color: #EEE;
-}
 
 hr {
     background-color: white;

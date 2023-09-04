@@ -20,30 +20,45 @@
 
 		<title> BingWall </title>
 
-		<link href="./web.css" type="text/css" rel="stylesheet" />
+		<link href="style/web.css" type="text/css" rel="stylesheet" />
+		<link href="style/global.css" type="text/css" rel="stylesheet" />
+		<link href="style/neocomponents.css" type="text/css" rel="stylesheet" />
 		<script src="./web.js" defer></script>
+		<script src="./icon.js" defer></script>
 
 	</head>
 
 	<body>
 		
 		<header>
-			<h1> Image quotidienne de Bing </h1>
-			<p> Image d'aujourd'hui par bing partout dans le monde </p>
-			<div></div>
+			<h1> BingWall </h1>
+			<nav>
+				<label class="neo-check" for="nightmode"> <input type="checkbox" id="nightmode" checked/> <div> <i class="local-icon">moon</i> </div> </label>					
+				<label class="neo-check" for="sourcecode"> <input type="checkbox" id="sourcecode"/> <div> <i class="local-icon">github</i> </div> </label>						
+				<label class="neo-check" for="l3"> <input type="checkbox" id="l3"/> <div> <i class="local-icon">moon</i> </div> </label>					
+				<label class="neo-check" for="l4"> <input type="checkbox" id="l4"/> <div> <i class="local-icon">moon</i> </div> </label>						
+			</nav>
 		</header>
 		
-		<hr/>
 
 		<main>
-			<h1> Et ce mois-ci </h1>
-			<p> Image des 30 derniers jours de bing </p>
-			<div></div>
+
+			<section id="daily">
+				<h2> Image quotidienne de Bing </h2>
+				<p> Image d'aujourd'hui par bing partout dans le monde </p>
+				<div></div>
+			</section>
+
+			<hr/>
+
+			<section id="monthly">
+				<h2> Et ce mois-ci </h2>
+				<p> Image des 30 derniers jours de bing </p>
+				<div></div>
+			</section>
+
 		</main>
 
-		<aside>
-			<a href="https://github.com/StrategFirst/BingWall/"></a>
-		</aside>
 	</body>
 </html>
 		
