@@ -6,6 +6,7 @@ services:
     volumes:
      - ./scrap:/app
      - ./resources:/var/resources
+     - ./monthly-resources:/var/monthly-resources
      - ./config:/etc/scrapconfig
     entrypoint: sh local.sh
     user: $UID:$GID
