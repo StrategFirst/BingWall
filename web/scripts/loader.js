@@ -1,3 +1,4 @@
+/* Tool functions */
 function toImageDom( path , name ) {
     let domElem = document.createElement('img')
     domElem.src = path;
@@ -14,6 +15,32 @@ function toImageDom( path , name ) {
     return domElem;
 }
 
+function toDescDom( path , name ) {
+    const METADATA = (DAILY_METADATA[name] != undefined) ? DAILY_METADATA : MONTHLY_METADATA
+    let domElem = document.createElement('article')
+    let descIte = METADATA[name].descriptions.values()
+    domElem.innerHTML = `
+    <h3> Pays </h3>
+    <p> ${ [... (METADATA[name].countries)].join`, `}. </p>
+    <br/>
+    <h3> Description </h3>
+    <p> ${ descIte.next().value} </p>
+    <details>
+    <summary> Autres langues </summary>
+    <ul>
+    ${ ([... descIte]).map( k => `<li>${k}</li>`) }
+    </ul>
+    </details>` 
+
+    return domElem
+} 
+
+async function insertDom( locationXpath , img , desc ) {
+    const target = document.querySelector(locationXpath)
+    target.appendChild( img )
+    target.appendChild( desc )
+    return await waitLoad( img )  
+}
 function waitLoad( img ) {
     return new Promise( (resolve,reject) => {
         img.onload = () => resolve(img)
@@ -21,24 +48,73 @@ function waitLoad( img ) {
     })
 }
 
-fetch('./resources/list.txt')
+function reshapeMetadata( arr ) {
+    return arr.reduce( (result,entry) => { 
+        if( result[entry.file] == undefined ) {
+            result[entry.file] = { countries: new Set() , descriptions: new Set() }
+        }
+        result[entry.file].countries.add( entry.country )
+        result[entry.file].descriptions.add( entry.desc )
+        return result
+    },({}))
+}
+
+/* Core functions */
+async function dataDaily() {
+    await fetch('./resources/list.txt')
+        .then( response => response.text() )
+        .then( text => text.split`\n` )
+        .then( data => data.filter( line => line != '' && line != 'list.txt' ) )
+        .then( data => data.map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] ) )
+        .then( paths => paths.map( (args) => [ toImageDom(...args) , toDescDom(...args) ] ) )
+        .then( domElements => Promise.all( domElements.map( domElement => insertDom('main #daily div',...domElement))) )
+        .then( () => document.querySelector('#daily.loading').classList.remove('loading') )
+}
+
+async function dataMonthly() {
+    await fetch('./monthly-resources/list.txt')
+        .then( response => response.text() )
+        .then( text => text.split`\n` )
+        .then( data => data.filter( line => line.match(/.webp/) ) )
+        .then( data => data.map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] ) )
+        .then( paths => paths.map( (args) => [ toImageDom(...args) , toDescDom(...args) ] ) )
+        .then( domElements => Promise.all( domElements.map( domElement => insertDom('main #monthly div',...domElement))) )
+        .then( () => document.querySelector('#monthly.loading').classList.remove('loading') )
+}
+
+async function metadataDaily() {
+    return await fetch('./resources/metadata.json')
+        .then( response => response.json() )
+        .then( reshapeMetadata )
+}
+
+async function metadataMonthly() {
+    return await fetch('./monthly-resources/list.txt')
     .then( response => response.text() )
     .then( text => text.split`\n` )
-    .then( data => data.filter( line => line != '' && line != 'list.txt' ) )
-    .then( data => data.map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] ) )
-    .then( paths => paths.map( (args) => toImageDom(...args) ) )
-    .then( domElements => Promise.all(domElements.map( domElement => waitLoad(document.querySelector('main #daily div').appendChild(domElement) )  )) )
-    .then( () => document.querySelector('#daily.loading').classList.remove('loading') )
+    .then( paths => [...(new Set(paths.filter( p => p.match(/.webp$/) ).map( p => p.replace( /[^\\/]+.webp$/ , 'metadata.json' ) )))] )
+    .then( list => Promise.all( list.map( p=>fetch(p).then(res=>res.json()))) )
+    .then( meta => meta.flat() )
+    .then( reshapeMetadata )
 
-fetch('./monthly-resources/list.txt')
-    .then( response => response.text() )
-    .then( text => text.split`\n` )
-    .then( data => data.filter( line => line.match(/.webp/) ) )
-    .then( data => data.map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] ) )
-    .then( paths => paths.map( (args) => toImageDom(...args) ) )
-    .then( domElements => Promise.all( domElements.map( domElement => waitLoad(document.querySelector('main #monthly div').appendChild(domElement) ) ) ) )
-    .then( () => document.querySelector('#monthly.loading').classList.remove('loading') )
+}
 
-fetch('./resources/metadata.json')
-    .then( response => response.json() )
-    .then( console.table )
+/* Main flow */
+
+let DAILY_METADATA;
+let MONTHLY_METADATA;
+
+async function main() {
+    async function routine_daily() {
+        DAILY_METADATA = await metadataDaily()
+        await dataDaily()
+    }
+    async function routine_monthly() {
+        MONTHLY_METADATA = await metadataMonthly()
+        await dataMonthly()
+    }
+    
+    await Promise.all( [ routine_daily() , routine_monthly() ] )
+}
+
+main()

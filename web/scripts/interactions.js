@@ -5,6 +5,13 @@ function change_lightmode( event ) {
 		document.querySelector(':root').classList.add('light')
 }
 
+function change_infomode( event ) {
+	if( event.target.checked )
+		document.querySelector(':root').classList.add('info')
+	else
+		document.querySelector(':root').classList.remove('info')
+}
+
 function change_sourcecode( event ) {
 	const a = document.createElement('a')
 	a.href = 'https://github.com/StrategFirst/BingWall/'

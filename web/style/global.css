@@ -74,8 +74,25 @@ img {
     cursor: zoom-in;
 }
 
+article {
+    text-align: left;;
+}
 
+:root.info section > div{
+    grid-template-columns: repeat(auto-fit, 25rem 40rem );
+}
 
+:root:not(.info) article {
+    display: none;
+}
+
+article details summary {
+    cursor: pointer;
+}
+
+article details {
+    margin: 1rem;
+}
 hr {
     background-color: var(--txt);
     height: 1px;
