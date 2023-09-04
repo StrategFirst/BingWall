@@ -12,8 +12,8 @@
 	height: 3em;
 
 	border-radius: .5em;
-	background-color: #222;
-	box-shadow: -1px -1px 4px #333, 1px 1px 3px black;
+	background-color: var(--bg);
+	box-shadow: -1px -1px 4px var(--bg-lighter), 1px 1px 3px var(--bg-shadow);
 
 	cursor: pointer;
 
@@ -21,19 +21,19 @@
 }
 
 .neo-check:active div {
-	box-shadow: 1px 1px 4px #333, -1px -1px 3px black;
+	box-shadow: 1px 1px 4px var(--bg-lighter), -1px -1px 3px var(--bg-shadow);
 }
 
 .neo-check > input:checked ~ div > svg {
-	fill: #2870ea;
-	stroke: #2870ea;
-	color: #2870ea;
+	filter: grayscale(0);
 }
 
 .neo-check > input ~ div > :is(svg, img) {
-	fill: #666;
-	stroke: #666;
-	color: #666;
+	fill: var(--tint);
+	stroke: var(--tint);
+	color: var(--tint);
+
+	filter: grayscale(1);
 
 	transition: 1s;
 
