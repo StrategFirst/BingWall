@@ -10,3 +10,16 @@ services:
      - ./config:/etc/scrapconfig
     entrypoint: sh local.sh
     user: $UID:$GID
+
+  web:
+    image: python:3
+    working_dir: /var/www
+    restart: on-failure:3
+    volumes:
+     - ./web:/var/www
+     - ./resources:/var/www/resources
+     - ./monthly-resources:/var/www/monthly-resources
+    entrypoint: python3 -m http.server -d . 8080
+    ports:
+      - "80:8080"
+
