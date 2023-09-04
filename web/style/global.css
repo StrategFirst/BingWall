@@ -17,6 +17,15 @@
     --tint: #2870ea;
 }
 
+:root.light {
+    --bg: #DDD;
+    --bg-lighter: #FFF;
+    --bg-shadow: #BBB;
+
+    --txt: #111;
+
+    --tint: #2870ea;
+}
 /* Global placement and style */
 html {
     background-color: var(--bg);
@@ -46,6 +55,11 @@ header nav {
     margin: 1rem 0;
 }
 
+header #app-icon {
+    width: 64px;
+    height: 64px;
+}
+
 /* Main content style and placement */
 main > section > div {
     display: grid;
@@ -63,24 +77,12 @@ img {
 
 
 hr {
-    background-color: white;
+    background-color: var(--txt);
     height: 1px;
     width:10vw;
     margin: 1rem auto ;
 }
 
-aside {
-    position: absolute;
-    top: 0;
-    right: 0;
-    aspect-ratio: 1/1;
-    background-image: url('https://github.com/fluidicon.png');
-    background-size: cover;
-    filter: sepia(999) hue-rotate(120deg);
-}
-
-aside a {
-    width: 3rem;
-    height: 3rem;
-    display: block;
+main > section > div {
+    margin: 2rem 0;
 }

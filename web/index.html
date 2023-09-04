@@ -20,24 +20,28 @@
 
 		<title> BingWall </title>
 
-		<link type="text/css" rel="stylesheet" href="style/web.css" />
+		<link type="image/png" rel="icon" href="assets/icon.png" />
+
 		<link type="text/css" rel="stylesheet" href="style/global.css" />
+		<link type="text/css" rel="stylesheet" href="style/loading.css" />
 		<link type="text/css" rel="stylesheet" href="style/neocomponents.css" />
 
 		<script defer src="scripts/loader.js" ></script>
 		<script defer src="scripts/icon.js"></script>
+		<script defer src="scripts/interactions.js"></script>
 
 	</head>
 
 	<body>
 		
 		<header>
+			<img src="assets/icon.png" alt="AppIcon" width="64" height="64" id="app-icon"/>
 			<h1> BingWall </h1>
 			<nav>
-				<label class="neo-check" for="nightmode"> <input type="checkbox" id="nightmode" checked/> <div> <i class="local-icon">moon</i> </div> </label>					
-				<label class="neo-check" for="sourcecode"> <input type="checkbox" id="sourcecode"/> <div> <i class="local-icon">github</i> </div> </label>						
+				<label class="neo-check" for="nightmode"> <input type="checkbox" id="nightmode" checked onchange="change_lightmode(event)"/> <div> <i class="local-icon">moon</i> </div> </label>					
+				<label class="neo-check" for="sourcecode"> <input type="checkbox" id="sourcecode" onchange="change_sourcecode(event)"/> <div> <i class="local-icon">github</i> </div> </label>						
 				<label class="neo-check" for="l3"> <input type="checkbox" id="l3"/> <div> <i class="local-icon">info</i> </div> </label>					
-				<label class="neo-check" for="l4"> <input type="checkbox" id="l4"/> <div> <i class="local-icon">moon</i> </div> </label>						
+				<label class="neo-check" for="l4"> <input type="checkbox" id="l4"/> <div> <i class="local-icon">local</i> </div> </label>						
 			</nav>
 		</header>
 		

@@ -1,0 +1,6 @@
+<svg viewbox="1 0 10 10">
+<mask id="a">
+	<path fill="#FFF" d="M0 0h12v12H0z"/>
+	<circle cx="6" cy="4" r="1.2"/>
+</mask>
+<g mask="url(#a)" fill="inherit"><path d="M8 4 6 9 4 4" stroke="inherit"/><circle cx="6" cy="4" r="2.5"/></g></svg>
