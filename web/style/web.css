@@ -1,6 +1,7 @@
 /** Loading animation **/
 .loading {
     position: relative;
+    margin-bottom: 2rem;
 }
 .loading:after {
     content: 'Chargement en cours...';
@@ -11,7 +12,7 @@
     content: '';
     /* Positionning */
     position: absolute;
-    top: 50%;
+    bottom: -1rem;
     left: 50%;
     /* Make it a little dot */
     display: block;

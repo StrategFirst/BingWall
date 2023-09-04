@@ -14,13 +14,20 @@ function toImageDom( path , name ) {
     return domElem;
 }
 
+function waitLoad( img ) {
+    return new Promise( (resolve,reject) => {
+        img.onload = () => resolve(img)
+        img.onerror = reject
+    })
+}
+
 fetch('./resources/list.txt')
     .then( response => response.text() )
     .then( text => text.split`\n` )
     .then( data => data.filter( line => line != '' && line != 'list.txt' ) )
     .then( data => data.map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] ) )
     .then( paths => paths.map( (args) => toImageDom(...args) ) )
-    .then( domElements => domElements.forEach( domElement => document.querySelector('main #daily div').appendChild(domElement) ) )
+    .then( domElements => Promise.all(domElements.map( domElement => waitLoad(document.querySelector('main #daily div').appendChild(domElement) )  )) )
     .then( () => document.querySelector('#daily.loading').classList.remove('loading') )
 
 fetch('./monthly-resources/list.txt')
@@ -29,7 +36,7 @@ fetch('./monthly-resources/list.txt')
     .then( data => data.filter( line => line.match(/.webp/) ) )
     .then( data => data.map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] ) )
     .then( paths => paths.map( (args) => toImageDom(...args) ) )
-    .then( domElements => domElements.forEach( domElement => document.querySelector('main #monthly div').appendChild(domElement) ) )
+    .then( domElements => Promise.all( domElements.map( domElement => waitLoad(document.querySelector('main #monthly div').appendChild(domElement) ) ) ) )
     .then( () => document.querySelector('#monthly.loading').classList.remove('loading') )
 
 fetch('./resources/metadata.json')
