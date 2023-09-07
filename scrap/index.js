@@ -18,19 +18,29 @@ async function TodayMetadata() {
 	return (
 			( await Promise.all(
 				COUNTRIES.map(
-					country => fetch( `https://www.bing.com?cc=${country.code}` )	
-						.then( res => res.text() )					
-						.then( txt => parse(txt) )					
-						.then( dom => dom.querySelectorAll('meta') )
-						.then( lst => lst.map( tag => [ tag.getAttribute('property') , tag.getAttribute('content') ] ) )
-						.then( ent => Object.fromEntries(ent) )
-						.then( obj => [ obj["og:image"] , obj["og:description"] , country.name ] )
+					async (country) => {
+						// Grab the page content
+						let HTMLPage = await fetch( `https://www.bing.com?cc=${country.code}` ).then( res => res.text() );
+						// Take every OGP key pair
+						let OGP_key_value_pair = Object.fromEntries( 
+							parse( HTMLPage )
+								.querySelectorAll('meta')
+								.map( tag => [ tag.getAttribute('property') , tag.getAttribute('content') ] )
+						)
+						// Due to some convention the og:description field is cut of at 50'th character so we fill using the page
+						const shorten_desc = OGP_key_value_pair["og:description"]							// extract the current
+						const all_descs = HTMLPage.match( new RegExp(`"[^"]*${shorten_desc}[^"]*"`,'g') )	// find in the page all the versions of the description ( cutted or not )
+						const all_descs_len = all_descs.map( k=>k.length )									// extract the longest description
+						const full_length_desc = all_descs[ all_descs_len.indexOf( Math.max( ... all_descs_len ) ) ]
+						OGP_key_value_pair["og:description"] = full_length_desc											// replace the og one with the first longest
+						return [ OGP_key_value_pair["og:image"] , OGP_key_value_pair["og:description"] , country.name , country.code ];
+					}
 				)
 			) )
 		
 			.filter( x => x.every( k => k != undefined ) )
-			.map( ([url,desc,country]) => ({
-					country, desc,
+			.map( ([url,desc,country,country_code]) => ({
+					country, desc, country_code,
 					'url' : url.replace('_tmb.jpg&rf=','_1920x1080.webp&qlt=100'),
 					'file' : url.match(/OHR\.(.*)_([^_]+)_tmb/)[1]
 			}) )
