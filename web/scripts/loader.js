@@ -60,27 +60,21 @@ function reshapeMetadata( arr ) {
 }
 
 /* Core functions */
-async function dataDaily() {
-    await fetch('./resources/list.txt')
+async function getData( sourcePath , type ) {
+    await fetch(sourcePath)
         .then( response => response.text() )
-        .then( text => text.split`\n` )
-        .then( data => data.filter( line => line != '' && line != 'list.txt' ) )
-        .then( data => data.map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] ) )
-        .then( paths => paths.map( (args) => [ toImageDom(...args) , toDescDom(...args) ] ) )
-        .then( domElements => Promise.all( domElements.map( domElement => insertDom('main #daily div',...domElement))) )
-        .then( () => document.querySelector('#daily.loading').classList.remove('loading') )
+        .then( text => text
+            .split`\n`
+            .filter( line => line.match(/.webp/) ) 
+            .map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] )
+            .map( (args) => [ toImageDom(...args) , toDescDom(...args) ] )
+            )
+        .then( domElements => Promise.all( domElements.map( domElement => insertDom( `main ${type} div` , ...domElement ) ) ) )
+        .then( () => document.querySelector(`${type}.loading`).classList.remove('loading') )
 }
 
-async function dataMonthly() {
-    await fetch('./monthly-resources/list.txt')
-        .then( response => response.text() )
-        .then( text => text.split`\n` )
-        .then( data => data.filter( line => line.match(/.webp/) ) )
-        .then( data => data.map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] ) )
-        .then( paths => paths.map( (args) => [ toImageDom(...args) , toDescDom(...args) ] ) )
-        .then( domElements => Promise.all( domElements.map( domElement => insertDom('main #monthly div',...domElement))) )
-        .then( () => document.querySelector('#monthly.loading').classList.remove('loading') )
-}
+function dataDaily() { return getData( './resources/list.txt' , '#daily' ); }
+function dataMonthly() { return getData( './monthly-resources/list.txt' , '#monthly' ); }
 
 async function metadataDaily() {
     return await fetch('./resources/metadata.json')
@@ -90,13 +84,12 @@ async function metadataDaily() {
 
 async function metadataMonthly() {
     return await fetch('./monthly-resources/list.txt')
-    .then( response => response.text() )
-    .then( text => text.split`\n` )
-    .then( paths => [...(new Set(paths.filter( p => p.match(/.webp$/) ).map( p => p.replace( /[^\\/]+.webp$/ , 'metadata.json' ) )))] )
-    .then( list => Promise.all( list.map( p=>fetch(p).then(res=>res.json()))) )
-    .then( meta => meta.flat() )
-    .then( reshapeMetadata )
-
+        .then( response => response.text() )
+        .then( text => text.split`\n` )
+        .then( paths => [...(new Set(paths.filter( p => p.match(/.webp$/) ).map( p => p.replace( /[^\\/]+.webp$/ , 'metadata.json' ) )))] )
+        .then( list => Promise.all( list.map( p=>fetch(p).then(res=>res.json()))) )
+        .then( meta => meta.flat() )
+        .then( reshapeMetadata )
 }
 
 /* Main flow */
