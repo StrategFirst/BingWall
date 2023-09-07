@@ -59,16 +59,25 @@ function reshapeMetadata( arr ) {
     },({}))
 }
 
+function uniquePerMonth( filePathList ) {
+    console.log(filePathList)
+    fileNameList = filePathList.map( filePath => filePath.match( /([^\/]+)\.webp/ )[1] )
+    fileFilterList = fileNameList.map( (fileName,ida) => fileNameList.reduce( (result,fn,idb) => ( (result) | ( (ida<idb) & (fn==fileName) ) ) , false ) )
+    return filePathList.filter( (_,i) => !fileFilterList[i] )
+}
+
 /* Core functions */
 async function getData( sourcePath , type ) {
     await fetch(sourcePath)
         .then( response => response.text() )
-        .then( text => text
-            .split`\n`
+        .then( text => text.split`\n`
             .filter( line => line.match(/.webp/) ) 
+            )
+        .then( uniquePerMonth )
+        .then( path => (path
             .map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] )
             .map( (args) => [ toImageDom(...args) , toDescDom(...args) ] )
-            )
+            ) )
         .then( domElements => Promise.all( domElements.map( domElement => insertDom( `main ${type} div` , ...domElement ) ) ) )
         .then( () => document.querySelector(`${type}.loading`).classList.remove('loading') )
 }
