@@ -1,0 +1,54 @@
+#countdown {
+	position: relative;
+	
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	margin-bottom: 2rem;
+	
+	color: var(--tint);
+	font-weight: bold;
+
+	margin: 1rem;
+}
+
+#countdown:before , #countdown:after {
+	content: '';
+	
+	display: block;
+	width: 16em;
+	border-radius: 8em;
+	
+	position: absolute;
+	bottom: -1rem;
+	left: 50%;
+}
+#countdown:before {
+	box-shadow: 1px 1px 4px var(--bg-lighter), -1px -1px 3px var(--bg-shadow);
+	background: var(--bg);
+	height: .6em;
+	
+	
+	transform: translate(-8em, -.3em);
+}
+
+
+
+#countdown:after {
+	background: var(--tint);
+	height: .4em;
+	
+	transform: translate(-8em, -.2em);
+
+	width: Calc( var(--jauge-state) * 16em );
+}
+
+#countdown.expired {
+	color: rgb(66, 216, 66);
+	cursor: pointer;
+}
+#countdown.expired:after {
+	background: rgb(42, 216, 42);
+}
