@@ -24,11 +24,11 @@ function toDescDom( path , name ) {
     <p> ${ [... (METADATA[name].countries)].join`, `}. </p>
     <br/>
     <h3> Description </h3>
-    <p> ${ descIte.next().value} </p>
+    <p> ${ descIte.next().value.replace('<','&lt;').replace('>','&gt;')} </p>
     <details>
     <summary> Autres langues </summary>
     <ul>
-    ${ ([... descIte]).map( k => `<li>${k}</li>`) }
+    ${ ([... descIte]).map( k => `<li>${k.replace('<','&lt;').replace('>','&gt;')}</li>`) }
     </ul>
     </details>` 
 
@@ -60,7 +60,6 @@ function reshapeMetadata( arr ) {
 }
 
 function uniquePerMonth( filePathList ) {
-    console.log(filePathList)
     fileNameList = filePathList.map( filePath => filePath.match( /([^\/]+)\.webp/ )[1] )
     fileFilterList = fileNameList.map( (fileName,ida) => fileNameList.reduce( (result,fn,idb) => ( (result) | ( (ida<idb) & (fn==fileName) ) ) , false ) )
     return filePathList.filter( (_,i) => !fileFilterList[i] )

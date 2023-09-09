@@ -21,3 +21,7 @@ function change_sourcecode( event ) {
 	document.body.removeChild(a)
 	event.target.checked = false
 }
+
+function change_localisation( event ) {
+	alert( 'Not available yet' )
+}

@@ -20,4 +20,4 @@ setInterval( () => {
 		domTarget.style.setProperty( '--jauge-state' , (~~(delayRatio*1e5))/1e5 )
 	}
 
-}, 2000)
+}, 1000)
