@@ -35,7 +35,7 @@ do
 	cd ..
 done
 
-echo "[5/5] Update monthly list"
+echo "[5/5] - Update monthly list"
 find /var/monthly-resources/ -name "*.webp" | sed -e "s/\\/var\\///g" > /var/monthly-resources/list.txt 
 
 sleep 1d && $0 $@
