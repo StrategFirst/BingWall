@@ -24,11 +24,11 @@ function toDescDom( path , name ) {
     <p> ${ [... (METADATA[name].countries)].join`, `}. </p>
     <br/>
     <h3> Description </h3>
-    <p> ${ descIte.next().value} </p>
+    <p> ${ descIte.next().value.replace('<','&lt;').replace('>','&gt;')} </p>
     <details>
     <summary> Autres langues </summary>
     <ul>
-    ${ ([... descIte]).map( k => `<li>${k}</li>`) }
+    ${ ([... descIte]).map( k => `<li>${k.replace('<','&lt;').replace('>','&gt;')}</li>`) }
     </ul>
     </details>` 
 
@@ -59,28 +59,30 @@ function reshapeMetadata( arr ) {
     },({}))
 }
 
-/* Core functions */
-async function dataDaily() {
-    await fetch('./resources/list.txt')
-        .then( response => response.text() )
-        .then( text => text.split`\n` )
-        .then( data => data.filter( line => line != '' && line != 'list.txt' ) )
-        .then( data => data.map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] ) )
-        .then( paths => paths.map( (args) => [ toImageDom(...args) , toDescDom(...args) ] ) )
-        .then( domElements => Promise.all( domElements.map( domElement => insertDom('main #daily div',...domElement))) )
-        .then( () => document.querySelector('#daily.loading').classList.remove('loading') )
+function uniquePerMonth( filePathList ) {
+    fileNameList = filePathList.map( filePath => filePath.match( /([^\/]+)\.webp/ )[1] )
+    fileFilterList = fileNameList.map( (fileName,ida) => fileNameList.reduce( (result,fn,idb) => ( (result) | ( (ida<idb) & (fn==fileName) ) ) , false ) )
+    return filePathList.filter( (_,i) => !fileFilterList[i] )
 }
 
-async function dataMonthly() {
-    await fetch('./monthly-resources/list.txt')
+/* Core functions */
+async function getData( sourcePath , type ) {
+    await fetch(sourcePath)
         .then( response => response.text() )
-        .then( text => text.split`\n` )
-        .then( data => data.filter( line => line.match(/.webp/) ) )
-        .then( data => data.map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] ) )
-        .then( paths => paths.map( (args) => [ toImageDom(...args) , toDescDom(...args) ] ) )
-        .then( domElements => Promise.all( domElements.map( domElement => insertDom('main #monthly div',...domElement))) )
-        .then( () => document.querySelector('#monthly.loading').classList.remove('loading') )
+        .then( text => text.split`\n`
+            .filter( line => line.match(/.webp/) ) 
+            )
+        .then( uniquePerMonth )
+        .then( path => (path
+            .map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] )
+            .map( (args) => [ toImageDom(...args) , toDescDom(...args) ] )
+            ) )
+        .then( domElements => Promise.all( domElements.map( domElement => insertDom( `main ${type} div` , ...domElement ) ) ) )
+        .then( () => document.querySelector(`${type}.loading`).classList.remove('loading') )
 }
+
+function dataDaily() { return getData( './resources/list.txt' , '#daily' ); }
+function dataMonthly() { return getData( './monthly-resources/list.txt' , '#monthly' ); }
 
 async function metadataDaily() {
     return await fetch('./resources/metadata.json')
@@ -90,13 +92,12 @@ async function metadataDaily() {
 
 async function metadataMonthly() {
     return await fetch('./monthly-resources/list.txt')
-    .then( response => response.text() )
-    .then( text => text.split`\n` )
-    .then( paths => [...(new Set(paths.filter( p => p.match(/.webp$/) ).map( p => p.replace( /[^\\/]+.webp$/ , 'metadata.json' ) )))] )
-    .then( list => Promise.all( list.map( p=>fetch(p).then(res=>res.json()))) )
-    .then( meta => meta.flat() )
-    .then( reshapeMetadata )
-
+        .then( response => response.text() )
+        .then( text => text.split`\n` )
+        .then( paths => [...(new Set(paths.filter( p => p.match(/.webp$/) ).map( p => p.replace( /[^\\/]+.webp$/ , 'metadata.json' ) )))] )
+        .then( list => Promise.all( list.map( p=>fetch(p).then(res=>res.json()))) )
+        .then( meta => meta.flat() )
+        .then( reshapeMetadata )
 }
 
 /* Main flow */

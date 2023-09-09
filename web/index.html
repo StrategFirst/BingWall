@@ -25,10 +25,12 @@
 		<link type="text/css" rel="stylesheet" href="style/global.css" />
 		<link type="text/css" rel="stylesheet" href="style/loading.css" />
 		<link type="text/css" rel="stylesheet" href="style/neocomponents.css" />
+		<link type="text/css" rel="stylesheet" href="style/clock.css" />
 
 		<script defer src="scripts/loader.js" ></script>
 		<script defer src="scripts/icon.js"></script>
 		<script defer src="scripts/interactions.js"></script>
+		<script defer src="scripts/clock.js"></script>
 
 	</head>
 
@@ -38,10 +40,10 @@
 			<img src="assets/icon.png" alt="AppIcon" width="64" height="64" id="app-icon"/>
 			<h1> BingWall </h1>
 			<nav>
-				<label class="neo-check" for="nightmode"> <input type="checkbox" id="nightmode" checked onchange="change_lightmode(event)"/> <div> <i class="local-icon">moon</i> </div> </label>					
-				<label class="neo-check" for="sourcecode"> <input type="checkbox" id="sourcecode" onchange="change_sourcecode(event)"/> <div> <i class="local-icon">github</i> </div> </label>						
-				<label class="neo-check" for="infomode"> <input type="checkbox" id="infomode" onchange="change_infomode(event)"/> <div> <i class="local-icon">info</i> </div> </label>					
-				<label class="neo-check" for="l4"> <input type="checkbox" id="l4"/> <div> <i class="local-icon">local</i> </div> </label>						
+				<label class="neo-check" for="nightmode">    <input type="checkbox" id="nightmode" checked onchange="change_lightmode(event)"/>    <div> <i class="local-icon">moon</i>   </div> </label>
+				<label class="neo-check" for="sourcecode">   <input type="checkbox" id="sourcecode"        onchange="change_sourcecode(event)"/>   <div> <i class="local-icon">github</i> </div> </label>
+				<label class="neo-check" for="infomode">     <input type="checkbox" id="infomode"          onchange="change_infomode(event)"/>     <div> <i class="local-icon">info</i>   </div> </label>
+				<label class="neo-check" for="localisation"> <input type="checkbox" id="localisation"      onchange="change_localisation(event)"/> <div> <i class="local-icon">local</i>  </div> </label>
 			</nav>
 		</header>
 		
@@ -62,8 +64,20 @@
 				<div></div>
 			</section>
 
+			<hr/>
+			
 		</main>
 
+		<footer>
+			
+			<section>
+				
+				<h2> Temps avant la prochaine mise à jour </h2>
+				<span id="countdown"> ??? </span>
+				
+			</section>
+
+		</footer>
 	</body>
 </html>
 		
