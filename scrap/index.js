@@ -35,11 +35,15 @@ async function TodayMetadata() {
 						}
 						try {
 							// Due to some convention the og:description field is cut of at 50'th character so we fill using the page
-							const shorten_desc = OGP_key_value_pair["og:description"]							// extract the current
-							const all_descs = HTMLPage.match( new RegExp(`"[^"]*${shorten_desc.replace(/["'<>]/g,'.+')}[^"]*"`,'g') )	// find in the page all the versions of the description ( cutted or not )
-							const all_descs_len = all_descs.map( k=>k.length )									// extract the longest description
+							const shorten_desc = OGP_key_value_pair["og:description"]				// extract the current
+							const regex_desc = new RegExp(`"[^"]*${ shorten_desc
+								.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")								// Escape meaningfull chars
+								.replace(/["'<>]/g,'.+')											// Bing put some chars in unicode escape sequence
+							}[^"]*"`,'g')															
+							const all_descs = HTMLPage.match( regex_desc )							// find in the page all the versions of the description
+							const all_descs_len = all_descs.map( k=>k.length )						// extract the longest description
 							const full_length_desc = all_descs[ all_descs_len.indexOf( Math.max( ... all_descs_len ) ) ]
-							OGP_key_value_pair["og:description"] = full_length_desc											// replace the og one with the first longest
+							OGP_key_value_pair["og:description"] = full_length_desc					// replace the og one with the first longest
 						} catch( err ) {
 							console.error( country , 2 , err )
 							return undefined;
