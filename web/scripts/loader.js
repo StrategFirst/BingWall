@@ -19,18 +19,60 @@ function toDescDom( path , name ) {
     const METADATA = (DAILY_METADATA[name] != undefined) ? DAILY_METADATA : MONTHLY_METADATA
     let domElem = document.createElement('article')
     let descIte = METADATA[name].descriptions.values()
+    let titleIte = METADATA[name].titles.values()
     domElem.innerHTML = `
+    ${
+        (METADATA[name].titles.size > 0)
+        ?
+        `
+        <h3> Titres </h3>
+        <p> ${ titleIte.next().value.replace('<','&lt;').replace('>','&gt;') } </p>
+        ${
+            (METADATA[name].titles.size > 1 )
+            ?
+            `
+            <details>
+            <summary> Autres titres </summary>
+            <ul>
+            ${ ([... titleIte]).map( k => `<li>${k.replace('<','&lt;').replace('>','&gt;')}</li>`) }
+            </ul>
+            </details>
+            ` 
+            : 
+            ''
+        }
+        <br/>
+        `
+        :
+        ''
+    }
     <h3> Pays </h3>
     <p> ${ [... (METADATA[name].countries)].join`, `}. </p>
-    <br/>
-    <h3> Description </h3>
-    <p> ${ descIte.next().value.replace('<','&lt;').replace('>','&gt;')} </p>
-    <details>
-    <summary> Autres langues </summary>
-    <ul>
-    ${ ([... descIte]).map( k => `<li>${k.replace('<','&lt;').replace('>','&gt;')}</li>`) }
-    </ul>
-    </details>` 
+    ${
+        (METADATA[name].titles.size > 0)
+        ?
+        `
+        <br/>
+        <h3> Descriptions </h3>
+        <p> ${ descIte.next().value.replace('<','&lt;').replace('>','&gt;') } </p>
+        ${
+            (METADATA[name].titles.size > 1 )
+            ?
+            `
+            <details>
+            <summary> Autres langues </summary>
+            <ul>
+            ${ ([... descIte]).map( k => `<li>${k.replace('<','&lt;').replace('>','&gt;')}</li>`) }
+            </ul>
+            </details>
+            ` 
+            : 
+            ''
+        }
+        `
+        :
+        ''
+    }` 
 
     return domElem
 } 
@@ -51,10 +93,12 @@ function waitLoad( img ) {
 function reshapeMetadata( arr ) {
     return arr.reduce( (result,entry) => { 
         if( result[entry.file] == undefined ) {
-            result[entry.file] = { countries: new Set() , descriptions: new Set() }
+            result[entry.file] = { countries: new Set() , descriptions: new Set() , titles: new Set() }
         }
         result[entry.file].countries.add( entry.country )
         result[entry.file].descriptions.add( entry.desc )
+        if( entry.title )
+            result[entry.file].titles.add( entry.title )
         return result
     },({}))
 }
