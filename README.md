@@ -4,7 +4,17 @@
 
 <img 
 	src="banner.png"
+	style="height:4rem; width:clamp(4rem,100%,16rem); object-fit: cover;"
 	/>
+
+<hr/>
+
+<img
+	src="https://github.com/StrategFirst/BingWall/actions/workflows/daily-scrap.yml/badge.svg"
+	/>
+	
+### 4.1.0
+
 </div>
 
 Ce projet est une preuve de concept, il a pour but d'utiliser une fonctionnalité du site [bing.com](https://bing.com/) qui chaque jour partout dans le monde fournis une image quotidiennnement pour chaque régions du monde. L'objectif est de récupérer ces images pour chacune des régions.
