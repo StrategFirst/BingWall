@@ -1,6 +1,6 @@
 services:
   scrapper:
-    image: node:18-alpine
+    image: node:20-alpine
     working_dir: /app
     restart: on-failure:3
     volumes:

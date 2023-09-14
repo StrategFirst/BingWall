@@ -1,5 +1,4 @@
 // Libraries
-import fetch from 'node-fetch'
 import { writeFile } from 'fs/promises'
 import { parse } from 'node-html-parser'
 
