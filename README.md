@@ -1,19 +1,36 @@
 <div align="center" style="text-align: center;">
 
+### 4.3.0
 # BingWall
+
+
 
 <img 
 	src="banner.png"
 	style="height:4rem; width:clamp(4rem,100%,16rem); object-fit: cover;"
 	/>
 
+
+
+
 <hr/>
 
-<img
-	src="https://github.com/StrategFirst/BingWall/actions/workflows/daily-scrap.yml/badge.svg"
-	/>
-	
-### 4.2.0
+#### Actions
+[![Daily Badge](https://github.com/StrategFirst/BingWall/actions/workflows/daily-scrap.yml/badge.svg)](https://github.com/StrategFirst/BingWall/actions/workflows/daily-scrap.yml/)
+[![Daily Badge](https://github.com/StrategFirst/BingWall/actions/workflows/sonarcloud-analysis.yml/badge.svg)](https://github.com/StrategFirst/BingWall/actions/workflows/sonarcloud-analysis.yml/)
+
+#### Code quality
+
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=StrategFirst_BingWall&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=StrategFirst_BingWall)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=StrategFirst_BingWall&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=StrategFirst_BingWall)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=StrategFirst_BingWall&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=StrategFirst_BingWall)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=StrategFirst_BingWall&metric=bugs)](https://sonarcloud.io/summary/new_code?id=StrategFirst_BingWall)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=StrategFirst_BingWall&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=StrategFirst_BingWall)
+
+
+<hr/>
+
+
 
 </div>
 
