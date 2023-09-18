@@ -47,14 +47,14 @@ async function TodayMetadata() {
 							console.error( country , 2 , err )
 							return undefined;
 						}
-						return [ OGP_key_value_pair["og:image"] , OGP_key_value_pair["og:description"] , country.name , country.code ];
+						return [ OGP_key_value_pair["og:image"] , OGP_key_value_pair["og:description"] , OGP_key_value_pair["og:title"] , country.name , country.code ];
 					}
 				)
 			) )
 		
 			.filter( x => x != undefined )
-			.map( ([url,desc,country,country_code]) => ({
-					country, desc, country_code,
+			.map( ([url,desc,title,country,country_code]) => ({
+					country, desc, country_code, title,
 					'url' : url.replace('_tmb.jpg&rf=','_1920x1080.webp&qlt=100'),
 					'file' : url.match(/OHR\.(.*)_([^_]+)_tmb/)[1]
 			}) )
