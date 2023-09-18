@@ -23,7 +23,7 @@ jobs:
     steps:
       - name: Analyze with SonarCloud	
 
-        uses: SonarSource/sonarcloud-scan-action@v2.0.2
+        uses: SonarSource/sonarcloud-github-action@v2.0.2
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Needed to post analysis
