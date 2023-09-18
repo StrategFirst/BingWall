@@ -1,10 +1,10 @@
 /* Font setup */
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;500;600&display=swap');
 * { font-family: 'Josefin Sans', sans-serif; }
 h1 { font-weight: 600; font-size: 275%; }
 h2 { font-weight: 600; }
 h3 { font-weight: 500; }
-p, ul { font-weight: 300;}
+p, ul { font-weight: 400;}
 
 /* Reset navigator default style */
 * {
@@ -83,7 +83,11 @@ img {
 }
 
 article {
-    text-align: left;;
+    text-align: left;
+}
+
+article p {
+    text-align: justify;
 }
 
 :root.info section > div{
