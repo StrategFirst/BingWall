@@ -19,7 +19,7 @@ function toDescDom( path , name ) {
     const METADATA = (DAILY_METADATA[name] != undefined) ? DAILY_METADATA : MONTHLY_METADATA
     let domElem = document.createElement('article')
     let descIte = METADATA[name].descriptions.values()
-    let titleIte = METADATA[name].titles.values()
+    let titleIte = [... METADATA[name].titles.values()].filter( title => !(title.match(/^Info$/i)) )[Symbol.iterator]()
     domElem.innerHTML = `
     ${
         (METADATA[name].titles.size > 0)
