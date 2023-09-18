@@ -13,7 +13,7 @@
 	src="https://github.com/StrategFirst/BingWall/actions/workflows/daily-scrap.yml/badge.svg"
 	/>
 	
-### 4.1.0
+### 4.2.0
 
 </div>
 
