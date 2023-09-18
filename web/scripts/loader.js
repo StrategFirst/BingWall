@@ -111,8 +111,8 @@ function reshapeMetadata( arr ) {
 }
 
 function uniquePerMonth( filePathList ) {
-    fileNameList = filePathList.map( filePath => filePath.match( /([^\/]+)\.webp/ )[1] )
-    fileFilterList = fileNameList.map( (fileName,ida) => fileNameList.reduce( (result,fn,idb) => ( (result) | ( (ida<idb) & (fn==fileName) ) ) , false ) )
+    const fileNameList = filePathList.map( filePath => filePath.match( /([^\/]+)\.webp/ )[1] )
+    const fileFilterList = fileNameList.map( (fileName,ida) => fileNameList.reduce( (result,fn,idb) => ( (result) | ( (ida<idb) & (fn==fileName) ) ) , false ) )
     return filePathList.filter( (_,i) => !fileFilterList[i] )
 }
 

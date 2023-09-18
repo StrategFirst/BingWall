@@ -1,0 +1,34 @@
+name: SonarQube Analysis 🔎
+
+
+on:
+  push:
+    branches: [ "main" , "dev" ]
+  pull_request:
+    branches: [ "main" , "dev" ]
+  workflow_dispatch: # allows manual run
+
+
+permissions:
+  pull-requests: read # allows SonarQube to decorate PRs with analysis results
+
+
+jobs:
+  Analysis:
+    runs-on: ubuntu-latest
+
+    environment:
+      name: sonarcloud-analysis
+
+    steps:
+      - name: Analyze with SonarCloud	
+
+        uses: SonarSource/sonarcloud-github-action@v2.0.2
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information
+            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}   # Needed to post analysis
+        with:
+          args:
+            # mandatory
+            -Dsonar.projectKey=StrategFirst_BingWall
+            -Dsonar.organization=strategfirst
