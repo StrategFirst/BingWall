@@ -23,7 +23,7 @@ async function TodayMetadata() {
 							// Grab the page content
 							HTMLPage = await fetch( `https://www.bing.com?cc=${country.code}` , {headers: {'User-Agent': 'NodeJS'}} ).then( res => res.text() );
 							// Take every OGP key pair
-							OGP_key_value_pair = Object.fromEntries( 
+							OGP_key_value_pair = Object.fromEntries(
 								parse( HTMLPage )
 									.querySelectorAll('meta')
 									.map( tag => [ tag.getAttribute('property') , tag.getAttribute('content') ] )
@@ -37,7 +37,7 @@ async function TodayMetadata() {
 							const shorten_desc = OGP_key_value_pair["og:description"]								// extract the current
 							const regex_desc = new RegExp(`"Description":"[^"]*${ shorten_desc
 								.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")												// Escape meaningfull chars
-								.replace(/["'<>]/g,'.+')															// Bing put some chars in unicode escape sequence
+								.replace(/["'<>]/g,'[^"]{1,10}')															// Bing put some chars in unicode escape sequence
 							}[^"]*"`,'g')															
 							const all_descs = HTMLPage.match( regex_desc )											// find in the page all the versions of the description
 							const all_descs_len = all_descs.map( k=>k.length )										// extract the longest description
