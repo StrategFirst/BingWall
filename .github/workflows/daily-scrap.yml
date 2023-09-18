@@ -33,7 +33,7 @@ jobs:
       run: sudo mv config /etc/scrapconfig/ && sudo chmod 777 -R /etc/scrapconfig/
       
     - name: Adapt arbo (2/2)
-      run: mkdir -p /var/resources/
+      run: sudo mkdir -p /var/resources/ && sudo chmod 777 -R /var/resources/
       
     - name: Install dependencies
       run: cd scrap/ && npm ci
