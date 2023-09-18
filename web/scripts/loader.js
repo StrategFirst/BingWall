@@ -15,6 +15,13 @@ function toImageDom( path , name ) {
     return domElem;
 }
 
+function txtSourceCleanup( srcTxt ) {
+    return srcTxt
+        .replace( '<' , '&lt;' )
+        .replace( '>' , '&gt;' )
+        .replace( /\\u[0-9A-F]{4}/gi , x=>String.fromCharCode(parseInt(x[0].substring(2))) )
+}
+
 function toDescDom( path , name ) {
     const METADATA = (DAILY_METADATA[name] != undefined) ? DAILY_METADATA : MONTHLY_METADATA
     let domElem = document.createElement('article')
@@ -26,7 +33,7 @@ function toDescDom( path , name ) {
         ?
         `
         <h3> Titres </h3>
-        <p> ${ titleIte.next().value.replace('<','&lt;').replace('>','&gt;') } </p>
+        <p> ${ txtSourceCleanup(titleIte.next().value) } </p>
         ${
             (METADATA[name].titles.size > 1 )
             ?
@@ -34,7 +41,7 @@ function toDescDom( path , name ) {
             <details>
             <summary> Autres titres </summary>
             <ul>
-            ${ ([... titleIte]).map( k => `<li>${k.replace('<','&lt;').replace('>','&gt;')}</li>`).join`` }
+            ${ ([... titleIte]).map( k => `<li>${txtSourceCleanup(k)}</li>` ).join`` }
             </ul>
             </details>
             ` 
@@ -54,7 +61,7 @@ function toDescDom( path , name ) {
         `
         <br/>
         <h3> Descriptions </h3>
-        <p> ${ descIte.next().value.replace('<','&lt;').replace('>','&gt;') } </p>
+        <p> ${ txtSourceCleanup(descIte.next().value) } </p>
         ${
             (METADATA[name].titles.size > 1 )
             ?
@@ -62,7 +69,7 @@ function toDescDom( path , name ) {
             <details>
             <summary> Autres langues </summary>
             <ul>
-            ${ ([... descIte]).map( k => `<li>${k.replace('<','&lt;').replace('>','&gt;')}</li>`).join`` }
+            ${ ([... descIte]).map( k => `<li>${ txtSourceCleanup(k) }</li>` ).join`` }
             </ul>
             </details>
             ` 
