@@ -31,3 +31,4 @@ jobs:
           args:
             # mandatory
             -Dsonar.projectKey=StrategFirst_BingWall
+            -Dsonar.organization=strategfirst
