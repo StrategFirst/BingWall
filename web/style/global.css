@@ -86,8 +86,17 @@ article {
     text-align: left;
 }
 
-article p {
+article p, article ul li {
     text-align: justify;
+}
+
+article ul {
+    margin-left: 1rem;
+    list-style-type: '- ';
+}
+
+article ul li ~ li {
+    margin-top: 1.8rem;
 }
 
 :root.info section > div{

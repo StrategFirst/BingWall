@@ -34,7 +34,7 @@ function toDescDom( path , name ) {
             <details>
             <summary> Autres titres </summary>
             <ul>
-            ${ ([... titleIte]).map( k => `<li>${k.replace('<','&lt;').replace('>','&gt;')}</li>`) }
+            ${ ([... titleIte]).map( k => `<li>${k.replace('<','&lt;').replace('>','&gt;')}</li>`).join`` }
             </ul>
             </details>
             ` 
@@ -62,7 +62,7 @@ function toDescDom( path , name ) {
             <details>
             <summary> Autres langues </summary>
             <ul>
-            ${ ([... descIte]).map( k => `<li>${k.replace('<','&lt;').replace('>','&gt;')}</li>`) }
+            ${ ([... descIte]).map( k => `<li>${k.replace('<','&lt;').replace('>','&gt;')}</li>`).join`` }
             </ul>
             </details>
             ` 
