@@ -26,8 +26,8 @@ jobs:
       
     - name: Get node v20.x
       uses: actions/setup-node@v3
-        with:
-          node-version: 20
+      with:
+        node-version: 20
       
     - name: Adapt arbo (1/2)
       run: sudo mv config /etc/scrapconfig/ && sudo chmod 777 -R /etc/scrapconfig/
