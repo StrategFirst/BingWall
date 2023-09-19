@@ -4,6 +4,7 @@ function toImageDom( path , name ) {
     domElem.src = path;
     domElem.alt = `Picture of ${name}, from Bings dailys images`;
     domElem.title = name;
+    domElem.loading = 'lazy';
     domElem.onclick = event => {
         let x = document.createElement('a');
         x.href = event.target.src;
