@@ -4,6 +4,7 @@ function toImageDom( path , name ) {
     domElem.src = path;
     domElem.alt = `Picture of ${name}, from Bings dailys images`;
     domElem.title = name;
+    domElem.loading = 'lazy';
     domElem.onclick = event => {
         let x = document.createElement('a');
         x.href = event.target.src;
@@ -26,16 +27,17 @@ function toDescDom( path , name ) {
     const METADATA = (DAILY_METADATA[name] != undefined) ? DAILY_METADATA : MONTHLY_METADATA
     let domElem = document.createElement('article')
     let descIte = METADATA[name].descriptions.values()
-    let titleIte = [... METADATA[name].titles.values()].filter( title => !(title.match(/^Info$/i)) )[Symbol.iterator]()
+    let titleCleans = [... METADATA[name].titles.values()].filter( title => !(title.match(/^Info$/i)) )
+    let titleIte = titleCleans[Symbol.iterator]()
     domElem.innerHTML = `
     ${
-        (METADATA[name].titles.size > 0)
+        (titleCleans.length > 0)
         ?
         `
         <h3> Titres </h3>
         <p> ${ txtSourceCleanup(titleIte.next().value) } </p>
         ${
-            (METADATA[name].titles.size > 1 )
+            (titleCleans.length > 1 )
             ?
             `
             <details>
@@ -130,6 +132,12 @@ async function getData( sourcePath , type ) {
             ) )
         .then( domElements => Promise.all( domElements.map( domElement => insertDom( `main ${type} div` , ...domElement ) ) ) )
         .then( () => document.querySelector(`${type}.loading`).classList.remove('loading') )
+        .catch( (reason) => {
+            console.error( reason );
+            console.error( `An error occured for the above reason please consider reaching out our services by creating an ticket on https://github.com/StrategFirst/BingWall/issues/new/choose with the above information and any other usefull information folowing the given rules. Thanks.`)
+            document.querySelector(`${type}.loading`).classList.remove('loading')
+            document.querySelector(`${type}.loading`).classList.add('laoding-failure')
+        })
 }
 
 function dataDaily() { return getData( './resources/list.txt' , '#daily' ); }
@@ -157,16 +165,22 @@ let DAILY_METADATA;
 let MONTHLY_METADATA;
 
 async function main() {
-    async function routine_daily() {
-        DAILY_METADATA = await metadataDaily()
-        await dataDaily()
+    try {
+        async function routine_daily() {
+            DAILY_METADATA = await metadataDaily()
+            await dataDaily()
+        }
+        async function routine_monthly() {
+            MONTHLY_METADATA = await metadataMonthly()
+            await dataMonthly()
+        }
+        
+        await Promise.all( [ routine_daily() , routine_monthly() ] )
+    } catch (err) {
+        console.error( err )
+        console.trace( err )
+        console.error( `An error occured for the above reason please consider reaching out our services by creating an ticket on https://github.com/StrategFirst/BingWall/issues/new/choose with the above information and any other usefull information folowing the given rules. Thanks.`)
     }
-    async function routine_monthly() {
-        MONTHLY_METADATA = await metadataMonthly()
-        await dataMonthly()
-    }
-    
-    await Promise.all( [ routine_daily() , routine_monthly() ] )
 }
 
 main()

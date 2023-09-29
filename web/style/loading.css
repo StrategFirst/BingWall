@@ -1,13 +1,13 @@
-/** Loading animation **/
-.loading {
+/** Loading failure animation **/
+.loading-failure {
     position: relative;
     margin-bottom: 2rem;
 }
-.loading:after {
+.loading-failure:after {
     content: 'Chargement en cours...';
 }
 
-.loading:before {
+.loading-failure:before {
     /* Trigger visibilty */
     content: '';
     /* Positionning */
@@ -47,3 +47,4 @@
         filter: hue-rotate(360deg);
     }
 }
+
