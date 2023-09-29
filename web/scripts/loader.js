@@ -27,16 +27,17 @@ function toDescDom( path , name ) {
     const METADATA = (DAILY_METADATA[name] != undefined) ? DAILY_METADATA : MONTHLY_METADATA
     let domElem = document.createElement('article')
     let descIte = METADATA[name].descriptions.values()
-    let titleIte = [... METADATA[name].titles.values()].filter( title => !(title.match(/^Info$/i)) )[Symbol.iterator]()
+    let titleCleans = [... METADATA[name].titles.values()].filter( title => !(title.match(/^Info$/i)) )
+    let titleIte = titleCleans[Symbol.iterator]()
     domElem.innerHTML = `
     ${
-        (METADATA[name].titles.size > 0)
+        (titleCleans.length > 0)
         ?
         `
         <h3> Titres </h3>
         <p> ${ txtSourceCleanup(titleIte.next().value) } </p>
         ${
-            (METADATA[name].titles.size > 1 )
+            (titleCleans.length > 1 )
             ?
             `
             <details>
