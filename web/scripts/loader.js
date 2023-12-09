@@ -86,7 +86,12 @@ function toDescDom( path , name ) {
         /**/
         (METADATA[name].gps != null)
         ?
-        ((METADATA[name].gps.lat) + (METADATA[name].gps.long))
+        addMarker(
+            METADATA[name].gps.lat,
+            METADATA[name].gps.long,
+            titleCleans.length>0 ? titleCleans[0] : '_',
+            path
+        )
         :
         ''
     }` 
