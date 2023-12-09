@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr-FR">
+
+<head>
+    <meta charset="UTF-8" />
+
+    <meta property="og:title"			content=" 🖼️ BingWall 🖼️ " />
+    <meta property="og:description"		content="Chaque jour de nouvelles photo 🤩" />
+    <meta property="og:url"				content="https://strategfirst.github.io/BingWall/" />
+    <meta property="og:image"			content="https://github.com/StrategFirst/BingWall/raw/main/banner.png" />
+    <meta property="og:locale" 			content="fr_FR" />
+    <meta property="og:image:type" 		content="image/png" />
+    <meta property="og:image:width" 	content="1024" />
+    <meta property="og:image:height"	content="824" />
+    <meta property="og:image:alt"		content="App banner, with famous windows landscape with fake bing watermark over it" />
+    
+    <meta name="theme-color"			content="#4079F0" data-react-helmet="true"  />
+    <meta name="twitter:card"			content="https://github.com/StrategFirst/BingWall/raw/main/banner.png"  />
+
+    <title> BingWall API Doc </title>
+
+    <link type="image/png" rel="icon" href="assets/icon.png" />
+
+    <link type="text/css" rel="stylesheet" href="../style/global.css" />
+    <!-- <link type="text/css" rel="stylesheet" href="style/loading.css" /> -->
+    <!-- <link type="text/css" rel="stylesheet" href="style/neocomponents.css" /> -->
+    <!-- <link type="text/css" rel="stylesheet" href="style/clock.css" /> -->
+
+	<link type="text/css" rel="stylesheet" href="../style/page/api-doc.css" />
+
+    <!-- <script defer src="scripts/loader.js" ></script> -->
+    <!-- <script defer src="scripts/icon.js"></script> -->
+    <!-- <script defer src="scripts/interactions.js"></script> -->
+    <!-- <script defer src="scripts/clock.js"></script> -->
+
+</head>
+
+<body>
+    <h1> Endpoints list : </h1>
+
+    <ul>
+        <li>
+            <b>Daily Resource list</b>
+            <p>List all the resources scrapped this day.</p>
+            <code contenteditable="false">/BingWall/resources/list.txt</code>
+        </li>
+        <li>
+            <b>Daily Resource Metadata</b>
+            <p>List all metadata about the resources scrapped this day.</p>
+            <code contenteditable="false">/BingWall/resources/metadata.json</code>
+        </li>
+        <li>
+            <b>Daily Resources</b>
+            <p>One of the resources scrapped this day</p>
+            <code contenteditable="false">/BingWall/resources/<data>ResourceName</data>.webp</code>
+        </li>
+        <li>
+            <b>Monthly Resource list</b>
+            <p>List all the resources scrapped this month.</p>
+            <code contenteditable="false">/BingWall/monthly-resources/list.txt</code>
+        </li>
+        <li>
+            <b>Monthly Resource Metadata</b>
+            <p>List all metadata about the resources scrapped this month.</p>
+            <code contenteditable="false">/BingWall/monthly-resources/<data>DayIndex</data>/metadata.json</code>
+        </li>
+        <li>
+            <b>Monthly Resources</b>
+            <p>One of the resources scrapped this month</p>
+            <code contenteditable="false">/BingWall/monthly-resources/<data>DayIndex</data>/<data>ResourceName</data>.webp</code>
+        </li>
+
+    </ul>
+</body>
+
+</html>
