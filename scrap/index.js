@@ -46,19 +46,23 @@ async function fileFromURL( webURL , localPath ) {
  */
 async function get_GPS( origin_DOM, origin_HTML ) {
 	try {
-		// Use search button link
+		// Find the button who reference the location :
 		const location_btn = origin_DOM.querySelector(".mappin");
 		if( location_btn == null) {
 			throw new BingWallError("NoGPS Found for this country")
 		}
+		// Extract the link of this button :
 		const location_path = location_btn.parentNode.parentNode.getAttribute('href');
-		// To find the map widget and is GPS coord in an intern url
+		// Get the linked page :
 		let GPS_coord = await fetch(`https://bing.com${location_path}`)
 						.then( res => res.text() )
 						.then( txt => parse(txt) )
+						// Find the display map widget
 						.then( dom => dom.querySelector('#mv_baseMap')
 											.getAttribute('src')
+											// Extract from the small element the GPS coords
 											.match(/([0-9]+\.[0-9]+),([0-9]+\.[0-9]+)/) )
+						// Handle crashes
 						.catch( () => [null, null, null] )
 		// Safe guards
 		if( GPS_coord == null ) {
