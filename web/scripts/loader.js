@@ -81,6 +81,14 @@ function toDescDom( path , name ) {
         `
         :
         ''
+    }
+    ${
+        /**/
+        ((METADATA[name].lat != null) && (METADATA[name].long != null))
+        ?
+        ((METADATA[name].lat) + (METADATA[name].long))
+        :
+        ''
     }` 
 
     return domElem
