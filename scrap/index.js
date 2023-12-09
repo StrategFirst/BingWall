@@ -40,6 +40,9 @@ async function TodayMetadata() {
 																	.getAttribute('src')
 																	.match(/([0-9]+\.[0-9]+),([0-9]+\.[0-9]+)/) )
 												.catch( () => [null, null, null] )
+								if( ! GPS_coord ) {
+									GPS_coord = [null, null, null]
+								}
 							} catch(err) {
 								GPS_coord =  [null, null, null];
 							}
