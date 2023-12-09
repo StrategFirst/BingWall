@@ -18,7 +18,7 @@ async function TodayMetadata() {
 			( await Promise.all(
 				COUNTRIES.map(
 					async (country) => {
-						let OGP_key_value_pair, HTMLPage;
+						let OGP_key_value_pair, HTMLPage, GPS_coord;
 						try {
 							// Grab the page content
 							HTMLPage = await fetch( `https://www.bing.com?cc=${country.code}` , {headers: {'User-Agent': 'NodeJS'}} ).then( res => res.text() );
@@ -28,15 +28,22 @@ async function TodayMetadata() {
 									.querySelectorAll('meta')
 									.map( tag => [ tag.getAttribute('property') , tag.getAttribute('content') ] )
 							)
-							fetch(`https://bing.com${
-									parse( HTMLPage )
-									.querySelector(".mappin")
-									.parentNode.parentNode.href}`
-								)
-								.then( res => res.text() )
-								.then( txt => parse(txt) )
-								.then( dom => dom.querySelector('mv_baseMap').src )
-								.then( console.log )
+							try {
+								GPS_coord = await fetch(`https://bing.com${
+													parse( HTMLPage )
+													.querySelector(".mappin").parentNode.parentNode
+													.getAttribute('href')}`
+												)
+												.then( res => res.text() )
+												.then( txt => parse(txt) )
+												.then( dom => dom.querySelector('#mv_baseMap')
+																	.getAttribute('src')
+																	.match(/([0-9]+\.[0-9]+),([0-9]+\.[0-9]+)/) )
+												.catch( () => [null, null, null] )
+							} catch(err) {
+								GPS_coord =  [null, null, null];
+							}
+																
 							
 						} catch( err ) {
 							console.error( country , 1 , err )
@@ -57,14 +64,14 @@ async function TodayMetadata() {
 							console.error( country , 2 , err )
 							return undefined;
 						}
-						return [ OGP_key_value_pair["og:image"] , OGP_key_value_pair["og:description"] , OGP_key_value_pair["og:title"] , country.name , country.code ];
+						return [ OGP_key_value_pair["og:image"] , OGP_key_value_pair["og:description"] , OGP_key_value_pair["og:title"] , country.name , country.code, GPS_coord[1], GPS_coord[2] ];
 					}
 				)
 			) )
 		
 			.filter( x => x != undefined )
-			.map( ([url,desc,title,country,country_code]) => ({
-					country, desc, country_code, title,
+			.map( ([url,desc,title,country,country_code,lat,long]) => ({
+					country, desc, country_code, title, lat, long,
 					'url' : url.replace('_tmb.jpg&rf=','_1920x1080.webp&qlt=100'),
 					'file' : url.match(/OHR\.(.*)_([^_]+)_tmb/)[1]
 			}) )
