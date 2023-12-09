@@ -23,5 +23,8 @@ function change_sourcecode( event ) {
 }
 
 function change_localisation( event ) {
-	alert( 'Not available yet' )
+	if( event.target.checked )
+		document.querySelector(':root').classList.remove('map-disabled')
+	else
+		document.querySelector(':root').classList.add('map-disabled')
 }

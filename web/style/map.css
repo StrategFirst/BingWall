@@ -1,0 +1,15 @@
+:root:not(.light) #map {
+    filter: invert(100%) hue-rotate(.5turn);
+}
+
+:root:not(.light) .map_img_miniature {
+    filter: hue-rotate(.5turn) invert(100%);
+}
+
+:root.map-disabled #map {
+    display: none;
+}
+
+#map {
+    height: clamp(20vh, 500px, 90vh);
+}

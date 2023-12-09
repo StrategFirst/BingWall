@@ -81,6 +81,19 @@ function toDescDom( path , name ) {
         `
         :
         ''
+    }
+    ${
+        /**/
+        (METADATA[name].gps != null)
+        ?
+        addMarker(
+            METADATA[name].gps.lat,
+            METADATA[name].gps.long,
+            titleCleans.length>0 ? titleCleans[0] : '_',
+            path
+        )
+        :
+        ''
     }` 
 
     return domElem
@@ -102,7 +115,14 @@ function waitLoad( img ) {
 function reshapeMetadata( arr ) {
     return arr.reduce( (result,entry) => { 
         if( result[entry.file] == undefined ) {
-            result[entry.file] = { countries: new Set() , descriptions: new Set() , titles: new Set() }
+            result[entry.file] = { countries: new Set() , descriptions: new Set() , titles: new Set(), gps: null }
+        }
+        if(
+            result[entry.file].gps === null &&
+            entry.lat !== null &&
+            entry.long !== null    
+        ) {
+            result[entry.file].gps = {lat: entry.lat, long: entry.long}
         }
         result[entry.file].countries.add( entry.country )
         result[entry.file].descriptions.add( entry.desc )
