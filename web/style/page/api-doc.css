@@ -1,0 +1,40 @@
+h1 {
+  text-align: center;
+  margin: 1rem;
+}
+
+body > ul > li {
+  display: block;
+  
+  width: 80vw;
+  
+  margin: 2rem auto;
+  padding: 1rem;
+  background-color: #0012;
+  border-color: #e70;
+  border-width: 2px;
+  border-style: solid;
+  border-radius: .5rem;
+  
+}
+
+body > ul > li > code {
+  display: inline-block;
+  background: #111;
+  padding: 0.2rem 0.4rem;
+}
+body > ul > li > code > data {
+  display: inline-block;
+  background: #111;
+  padding: 0 0.15rem;
+  font-style: italic;
+  font-weight: bold;
+}
+body > ul > li > code > data:before { content:'<'; }
+body > ul > li > code > data:after { content:'>'; }
+
+body > ul > li > * {
+  font-family: 'Courier New' !important;
+  font-size: 80%;
+ 
+}
