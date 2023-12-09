@@ -123,7 +123,7 @@ async function get_OGP( origin_DOM, origin_HTML ) {
 			url: OGP_key_value_pair["og:image"],
 			desc: OGP_key_value_pair["og:description"],
 			title: OGP_key_value_pair["og:title"],
-		}
+		};
 	} catch(err) {
 		console.error( err )
 		return {
@@ -144,43 +144,40 @@ async function get_OGP( origin_DOM, origin_HTML ) {
  */
 async function TodayMetadata() {
 	return (
-			( await Promise.all(
-				COUNTRIES.map(
-					async (country) => {
-						try {
-							// Grab the page content
-							const HTMLPage = await fetch(
-								`https://www.bing.com?cc=${country.code}`,
-								{headers: {'User-Agent': 'NodeJS'}}
-							).then( res => res.text() );
+		await Promise.all(
+			COUNTRIES.map(
+				async (country) => {
+					try {
+						// Grab the page content
+						const HTMLPage = await fetch(
+							`https://www.bing.com?cc=${country.code}`,
+							{headers: {'User-Agent': 'NodeJS'}}
+						).then( res => res.text() );
 
-							// Use metadata finder :
-							const GPS_coord = await get_GPS(parse(HTMLPage), HTMLPage);
-							const OGP_value = await get_OGP(parse(HTMLPage), HTMLPage);
+						// Use metadata finder :
+						const GPS_coord = await get_GPS(parse(HTMLPage), HTMLPage);
+						const OGP_value = await get_OGP(parse(HTMLPage), HTMLPage);
 
-							// Add locals metadata :
-							const country_info = {
-								country: country.name,
-								country_code: country.code,
-							};
-							const paths_info = {
-								url : OGP_value.url.replace('_tmb.jpg&rf=','_1920x1080.webp&qlt=100'),
-								file : OGP_value.url.match(/OHR\.(.*)_([^_]+)_tmb/)[1],
-							};
+						// Add locals metadata :
+						const country_info = {
+							country: country.name,
+							country_code: country.code,
+						};
+						const paths_info = {
+							url : OGP_value.url.replace('_tmb.jpg&rf=','_1920x1080.webp&qlt=100'),
+							file : OGP_value.url.match(/OHR\.(.*)_([^_]+)_tmb/)[1],
+						};
 
-							// Results :
-							return {...GPS_coord, ...OGP_value, ...country_info, ...paths_info};
-						} catch( err ) {
-							console.error( err )
-							return undefined;
-						}
-						
-					}
-				)
-			) )
-			.filter( x => x != undefined )
-	
-	)
+						// Results :
+						return {...GPS_coord, ...OGP_value, ...country_info, ...paths_info};
+					} catch( err ) {
+						console.error( err )
+						return undefined;
+					}		
+				}
+			)
+		)
+	).filter( x => x != undefined );
 }
 
 /**
@@ -191,8 +188,7 @@ async function TodayMetadata() {
  * @return {Promise<void>}
  */
 async function TodayData( metadata ) {
-
-	// Download only once
+	// Download only once (by going from array to object and vice versa)
 	await Promise.all(
 		Object.entries(
 			Object.fromEntries(
@@ -203,7 +199,6 @@ async function TodayData( metadata ) {
 	)
 
 	await writeFile( `/var/resources/metadata.json` , JSON.stringify(metadata) )
-
 }
 
 // Main
