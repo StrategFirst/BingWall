@@ -155,8 +155,11 @@ async function TodayMetadata() {
 						).then( res => res.text() );
 
 						// Use metadata finder :
-						const GPS_coord = await get_GPS(parse(HTMLPage), HTMLPage);
-						const OGP_value = await get_OGP(parse(HTMLPage), HTMLPage);
+						let GPS_coord, OGP_value;
+						[GPS_coord, OGP_value] = await Promise.all([
+							get_GPS(parse(HTMLPage), HTMLPage),
+							get_OGP(parse(HTMLPage), HTMLPage),
+						]);
 
 						// Add locals metadata :
 						const country_info = {
@@ -189,7 +192,7 @@ async function TodayMetadata() {
  */
 async function TodayData( metadata ) {
 	// Download only once (by going from array to object and vice versa)
-	await Promise.all(
+	let A = Promise.all(
 		Object.entries(
 			Object.fromEntries(
 				metadata.map( md => [md.file,md.url] )
@@ -198,7 +201,9 @@ async function TodayData( metadata ) {
 		.map( ([file,url]) => fileFromURL(url,`/var/resources/${file}.webp`) )
 	)
 
-	await writeFile( `/var/resources/metadata.json` , JSON.stringify(metadata) )
+	let B = writeFile( `/var/resources/metadata.json` , JSON.stringify(metadata) )
+
+	await Promise.all([A,B]);
 }
 
 // Main
