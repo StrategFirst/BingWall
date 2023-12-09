@@ -28,6 +28,16 @@ async function TodayMetadata() {
 									.querySelectorAll('meta')
 									.map( tag => [ tag.getAttribute('property') , tag.getAttribute('content') ] )
 							)
+							fetch(`https://bing.com${
+									parse( HTMLPage )
+									.querySelector(".mappin")
+									.parentNode.parentNode.href}`
+								)
+								.then( res => res.text() )
+								.then( txt => parse(txt) )
+								.then( dom => dom.querySelector('mv_baseMap').src )
+								.then( console.log )
+							
 						} catch( err ) {
 							console.error( country , 1 , err )
 							return undefined;
