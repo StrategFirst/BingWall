@@ -12,10 +12,21 @@ async function fileFromURL( webURL , localPath ) {
 		.then( data => writeFile( localPath, Buffer.from(data) ) );
 }
 
+class BingWallError extends Error {
+	constructor(message) {
+		super(message);
+		this.name = "BingWallError";
+	}
+}
+  
 async function get_GPS( origin_DOM, origin_HTML ) {
 	try {
 		// Use search button link
-		let location_path = origin_DOM.querySelector(".mappin").parentNode.parentNode.getAttribute('href')
+		const location_btn = origin_DOM.querySelector(".mappin");
+		if( location_btn == null) {
+			throw new BingWallError("NoGPS Found for this country")
+		}
+		const location_path = location_btn.parentNode.parentNode.getAttribute('href');
 		// To find the map widget and is GPS coord in an intern url
 		let GPS_coord = await fetch(`https://bing.com${location_path}`)
 						.then( res => res.text() )
@@ -28,13 +39,17 @@ async function get_GPS( origin_DOM, origin_HTML ) {
 		if( GPS_coord == null ) {
 			GPS_coord = [null, null, null]
 		}
-	} catch(err) {
-		GPS_coord =  [null, null, null];
-	}
-	try {
-		_, lat, long = GPS_coord;
+		
+		const lat = GPS_coord[1];
+		const long = GPS_coord[2];
+
 		return {lat,long};
-	} catch {
+	} catch(err) {
+		if( err instanceof BingWallError ) {
+			console.warn( err )
+		} else {
+			console.error( err )
+		}
 		return {lat:null,long:null};
 	}
 }
@@ -42,7 +57,7 @@ async function get_GPS( origin_DOM, origin_HTML ) {
 async function get_OGP( origin_DOM, origin_HTML ) {
 	try {
 		// Extract from the DOM OpenGraphProtocol meta key pair
-		OGP_key_value_pair = Object.fromEntries( origin_DOM
+		let OGP_key_value_pair = Object.fromEntries( origin_DOM
 													.querySelectorAll('meta')
 													.map( tag => [ tag.getAttribute('property') , tag.getAttribute('content') ] )
 		)
@@ -59,7 +74,7 @@ async function get_OGP( origin_DOM, origin_HTML ) {
 			const full_length_desc = all_descs[ all_descs_len.indexOf( Math.max( ... all_descs_len ) ) ]
 			OGP_key_value_pair["og:description"] = full_length_desc.replace('"Description":','')	// replace the og one with the first longest
 		} catch (err) {
-
+			console.error( err )
 		}
 
 		return {
@@ -68,6 +83,7 @@ async function get_OGP( origin_DOM, origin_HTML ) {
 			title: OGP_key_value_pair["og:title"],
 		}
 	} catch(err) {
+		console.error( err )
 		return {
 			url: null,
 			desc: null,
@@ -89,8 +105,8 @@ async function TodayMetadata() {
 							).then( res => res.text() );
 
 							// Use metadata finder :
-							const GPS_coord = get_GPS(parse(HTMLPage), HTMLPage);
-							const OGP_value = get_OGP(parse(HTMLPage), HTMLPage);
+							const GPS_coord = await get_GPS(parse(HTMLPage), HTMLPage);
+							const OGP_value = await get_OGP(parse(HTMLPage), HTMLPage);
 
 							// Add locals metadata :
 							const country_info = {
@@ -98,14 +114,14 @@ async function TodayMetadata() {
 								country_code: country.code,
 							};
 							const paths_info = {
-								url : OGP_value[url].replace('_tmb.jpg&rf=','_1920x1080.webp&qlt=100'),
-								file : OGP_value[url].match(/OHR\.(.*)_([^_]+)_tmb/)[1],
+								url : OGP_value.url.replace('_tmb.jpg&rf=','_1920x1080.webp&qlt=100'),
+								file : OGP_value.url.match(/OHR\.(.*)_([^_]+)_tmb/)[1],
 							}
 
 							// Results :
 							return {...GPS_coord, ...OGP_value, ...country_info, ...paths_info}
 						} catch( err ) {
-							console.error( country , 1 , err )
+							console.error( err )
 							return undefined;
 						}
 						
