@@ -1,11 +1,10 @@
 #countdown {
 	position: relative;
-	
-	
+
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	
+
 	color: var(--tint);
 	font-weight: bold;
 
@@ -24,22 +23,23 @@
 	bottom: -1rem;
 	left: 50%;
 }
+
 #countdown:before {
 	box-shadow: 1px 1px 4px var(--bg-lighter), -1px -1px 3px var(--bg-shadow);
 	background: var(--bg);
 	height: .6em;
-	
-	
 	transform: translate(-8em, -.3em);
 }
 
-
-
 #countdown:after {
 	background: var(--tint);
+	background: linear-gradient(45deg, var(--tint) 0%, #FFF0 50%, var(--tint) 100%);
+	background-size: 10% auto;
+	background-repeat: repeat;
+	animation: jauge-animation .4s linear infinite;
 	height: .4em;
-	
-	transform: translate(-8em, -.2em);
+
+	transform: translate(-8em, -.45em);
 
 	width: Calc( var(--jauge-state) * 16em );
 }
@@ -48,6 +48,17 @@
 	color: rgb(66, 216, 66);
 	cursor: pointer;
 }
+
 #countdown.expired:after {
 	background: rgb(42, 216, 42);
+}
+
+@keyframes jauge-animation {
+	from {
+	  background-position-x: 0%;
+	}
+	
+	to {
+		background-position-x: -10%;
+	}
 }
