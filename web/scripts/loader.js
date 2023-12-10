@@ -119,8 +119,8 @@ function reshapeMetadata( arr ) {
         }
         if(
             result[entry.file].gps === null &&
-            entry.lat !== null &&
-            entry.long !== null    
+            entry.lat != null &&
+            entry.long != null    
         ) {
             result[entry.file].gps = {lat: entry.lat, long: entry.long}
         }
