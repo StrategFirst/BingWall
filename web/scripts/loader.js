@@ -90,7 +90,8 @@ function toDescDom( path , name ) {
             METADATA[name].gps.lat,
             METADATA[name].gps.long,
             titleCleans.length>0 ? titleCleans[0] : '_',
-            path
+            path,
+            (DAILY_METADATA[name] != undefined)
         )
         :
         ''
