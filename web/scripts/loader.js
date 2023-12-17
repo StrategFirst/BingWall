@@ -16,6 +16,23 @@ function toImageDom( path , name ) {
     return domElem;
 }
 
+function toDummyDom( path, name) {
+    let dm = document.createElement('div');
+    dm.classList.add('dummy-div')
+    return dm;
+}
+
+function toPanelDom( path, name ) {
+    let panel = document.createElement('div');
+    panel.classList.add("interact-panel");
+    panel.innerHTML = `
+        <label class="neo-check" for="desc-link-${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_description(event)" id="desc-link-${ll}" /> <div> <i class="local-icon">info</i>     </div> </label>
+        <label class="neo-check" for="desc-link-${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_findmarker(event)" id="desc-link-${ll}" /> <div> <i class="local-icon">local</i>    </div> </label>
+        <label class="neo-check" for="desc-link-${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_downloadimg(event)" id="desc-link-${ll}" /> <div> <i class="local-icon">img-file</i> </div> </label>
+    `;
+    return panel;
+}
+
 function txtSourceCleanup( srcTxt ) {
     return srcTxt
         .replace( '<' , '&lt;' )
@@ -33,11 +50,6 @@ function toDescDom( path , name ) {
     let titleIte = titleCleans[Symbol.iterator]()
     let x;
     domElem.innerHTML = `
-    <div class="interact-panel">
-        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_description(event)" id="desc-link-${x}" /> <div> <i class="local-icon">info</i>   </div> </label>
-        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_description(event)" id="desc-link-${x}" /> <div> <i class="local-icon">local</i> </div> </label>
-        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_description(event)" id="desc-link-${x}" /> <div> <i class="local-icon">info</i>   </div> </label>
-    </div>
     <div class="description-panel">
     ${
         (titleCleans.length > 0)
@@ -111,10 +123,12 @@ function toDescDom( path , name ) {
     return domElem
 } 
 
-async function insertDom( locationXpath , img , desc ) {
+async function insertDom( locationXpath , img , panel, desc, dummy ) {
     const target = document.querySelector(locationXpath)
     target.appendChild( img )
+    target.appendChild( panel )
     target.appendChild( desc )
+    target.appendChild( dummy )
     return await waitLoad( img )  
 }
 function waitLoad( img ) {
@@ -160,7 +174,7 @@ async function getData( sourcePath , type ) {
         .then( uniquePerMonth )
         .then( path => (path
             .map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] )
-            .map( (args) => [ toImageDom(...args) , toDescDom(...args) ] )
+            .map( (args) => [ toImageDom(...args) , toPanelDom(...args), toDescDom(...args), toDummyDom(...args) ] )
             ) )
         .then( domElements => Promise.all( domElements.map( domElement => insertDom( `main ${type} div` , ...domElement ) ) ) )
         .then( updateLocalIcon )

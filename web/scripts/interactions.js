@@ -35,13 +35,32 @@ function change_localisation( event ) {
 
 function change_description( event ) {
 	let target = event.target;
-	while(target.tagName != 'ARTICLE') {
+	while(target.nextElementSibling.tagName != 'ARTICLE') {
 		if(target.tagName == 'BODY') return;
 
 		target = target.parentNode;
 	}
 	if( event.target.checked )
-		target.classList.add('description-shown')
+		target.nextElementSibling.classList.add('description-shown')
 	else
-		target.classList.remove('description-shown')
+		target.nextElementSibling.classList.remove('description-shown')
+}
+
+function change_findmarker( event ) {
+}
+
+function change_downloadimg( event ) {
+	let target = event.target;
+	while(target.previousElementSibling?.tagName != 'IMG') {
+		if(target.tagName == 'BODY') return;
+
+		target = target.parentNode;
+	}
+	const a = document.createElement('a')
+	a.href = target.previousElementSibling.src
+	a.target = '_blank'
+	document.body.appendChild(a)
+	a.click()
+	document.body.removeChild(a)
+	event.target.checked = false
 }

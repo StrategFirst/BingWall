@@ -29,7 +29,7 @@ header #app-icon {
 /* Main content style and placement */
 main > section > div {
     display: grid;
-    grid-template-columns: repeat(auto-fit, 25rem);
+    grid-template-columns: repeat(auto-fit, 25rem 3rem);
     grid-gap: 1rem;
     justify-content: center;
     align-content: center;
@@ -61,7 +61,8 @@ article ul li ~ li {
     grid-template-columns: repeat(auto-fit, 25rem 40rem );
 }
 
-article:not(.description-shown) .description-panel {
+article:not(.description-shown),
+article:not(.description-shown) + div.dummy-div{
     display: none;
 }
 
@@ -81,4 +82,11 @@ hr {
 
 main > section > div {
     margin: 2rem 0;
+}
+
+main .interact-panel {
+    display: flex;
+    flex-direction: column;
+    grid-gap: .7rem;
+    margin-left: -.2rem;
 }
