@@ -16,6 +16,49 @@ function toImageDom( path , name ) {
     return domElem;
 }
 
+function toDummyDom( path, name) {
+    let dm = document.createElement('div');
+    dm.classList.add('dummy-div')
+    return dm;
+}
+
+function toPanelDom( path, name ) {
+    
+    if(DAILY_METADATA[name] != undefined) {
+        md = DAILY_METADATA[name];
+        old = false;
+        
+    } else {
+        md = MONTHLY_METADATA[name];
+        old = true;
+    }
+
+
+    let panel = document.createElement('div');
+    panel.classList.add("interact-panel");
+    txt_dom = '';
+
+
+    txt_dom += `<label class="neo-check" for="desc-link-details${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_description(event)" id="desc-link-details${ll}" /> <div> <i class="local-icon">info</i>     </div> </label>`;
+
+    if(md.gps != null) {
+        let titleCleans = [... md.titles.values()].filter( title => !(title.match(/^Info$/i)) )[0]
+        let marker_ref_id = addMarker(
+            md.gps.lat,
+            md.gps.long,
+            titleCleans,
+            path,
+            old,
+        )
+        txt_dom += `<label class="neo-check" for="desc-link-local${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_findmarker(event)" id="desc-link-local${ll}" markerid="${marker_ref_id}"/> <div> <i class="local-icon">local</i>    </div> </label>`;
+    }
+    txt_dom += `<label class="neo-check" for="desc-link-file${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_downloadimg(event)" id="desc-link-file${ll}" /> <div> <i class="local-icon">img-file</i> </div> </label>`;
+    
+    panel.innerHTML = txt_dom;
+
+    return panel;
+}
+
 function txtSourceCleanup( srcTxt ) {
     return srcTxt
         .replace( '<' , '&lt;' )
@@ -23,13 +66,17 @@ function txtSourceCleanup( srcTxt ) {
         .replace( /\\u[0-9A-F]{4}/gi , x=>String.fromCharCode(parseInt(x[0].substring(2))) )
 }
 
+window.toDescDomCount=0
+
 function toDescDom( path , name ) {
     const METADATA = (DAILY_METADATA[name] != undefined) ? DAILY_METADATA : MONTHLY_METADATA
     let domElem = document.createElement('article')
     let descIte = METADATA[name].descriptions.values()
     let titleCleans = [... METADATA[name].titles.values()].filter( title => !(title.match(/^Info$/i)) )
     let titleIte = titleCleans[Symbol.iterator]()
+    let x;
     domElem.innerHTML = `
+    <div class="description-panel">
     ${
         (titleCleans.length > 0)
         ?
@@ -82,27 +129,18 @@ function toDescDom( path , name ) {
         :
         ''
     }
-    ${
-        /**/
-        (METADATA[name].gps != null)
-        ?
-        addMarker(
-            METADATA[name].gps.lat,
-            METADATA[name].gps.long,
-            titleCleans.length>0 ? titleCleans[0] : '_',
-            path
-        )
-        :
-        ''
-    }` 
+    </div>
+    ` 
 
     return domElem
 } 
 
-async function insertDom( locationXpath , img , desc ) {
+async function insertDom( locationXpath , img , panel, desc, dummy ) {
     const target = document.querySelector(locationXpath)
     target.appendChild( img )
+    target.appendChild( panel )
     target.appendChild( desc )
+    target.appendChild( dummy )
     return await waitLoad( img )  
 }
 function waitLoad( img ) {
@@ -148,9 +186,10 @@ async function getData( sourcePath , type ) {
         .then( uniquePerMonth )
         .then( path => (path
             .map( filename => [ filename , filename.replace(/.*\/([^.\/]+)\.webp$/,(_,x)=>x)  ] )
-            .map( (args) => [ toImageDom(...args) , toDescDom(...args) ] )
+            .map( (args) => [ toImageDom(...args) , toPanelDom(...args), toDescDom(...args), toDummyDom(...args) ] )
             ) )
         .then( domElements => Promise.all( domElements.map( domElement => insertDom( `main ${type} div` , ...domElement ) ) ) )
+        .then( updateLocalIcon )
         .then( () => document.querySelector(`${type}.loading`).classList.remove('loading') )
         .catch( (reason) => {
             console.error( reason );

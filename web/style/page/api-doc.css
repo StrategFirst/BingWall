@@ -11,17 +11,16 @@ body > ul > li {
   margin: 2rem auto;
   padding: 1rem;
   background-color: #0012;
-  border-color: #e70;
-  border-width: 2px;
-  border-style: solid;
-  border-radius: .5rem;
-  
+  box-shadow: -1px -1px 4px var(--bg-lighter), 1px 1px 3px var(--bg-shadow);  
 }
 
 body > ul > li > code {
   display: inline-block;
   background: #111;
   padding: 0.2rem 0.4rem;
+  margin-top: .2rem;
+  margin-bottom: .1rem;
+  cursor: text;
 }
 body > ul > li > code > data {
   display: inline-block;
@@ -37,4 +36,67 @@ body > ul > li > * {
   font-family: 'Courier New' !important;
   font-size: 80%;
  
+}
+
+body > ul > li:not(.selected) {
+  box-shadow: -1px -1px 4px var(--bg-lighter), 1px 1px 3px var(--bg-shadow);
+  cursor: pointer;
+}
+
+body > ul > li > *:not(code) {
+  cursor: default;
+}
+
+body > ul > li.selected {
+  box-shadow: 1px 1px 0px 0px var(--tint), 2px 2px 8px var(--bg-lighter), -2px -2px 4px 1px var(--bg-shadow);
+}
+
+output {
+  display: block;
+  margin: .5rem 0;
+  padding: 0 .3rem;
+  background: #070707;
+  white-space: pre-line;
+  font-family: monospace !important;
+  line-height: 2em;
+}
+
+output {
+  display: none;
+}
+
+.selected output {
+  display: block; 
+}
+
+output span + span {
+  color: var(--tint);
+}
+
+output span + span + i {
+  color: gray;
+}
+
+output span + span:before {
+  content: ": ";
+  color: darkgray;
+}
+
+output span + span + i:before {
+  content: " - ";
+}
+
+h1 {
+  position: relative;
+}
+
+h1:after {
+  position: absolute;
+  content: "BingWall";
+  font-size: 60%;
+  top: -.4em;
+  right: Calc(50% + 6rem);
+  color: var(--tint);
+  font-style: italic;
+  text-shadow: var(--bg-shadow) 1px 1px;
 }

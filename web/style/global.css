@@ -40,3 +40,23 @@ html {
     color: var(--txt);
 }
   
+/* Scrollbar */
+html {
+    scrollbar-gutter: stable;
+    overflow-y: scroll;
+}
+/** Firefox-based browsers **/
+html {
+    scrollbar-color: var(--tint) transparent;
+    scrollbar-width: auto;
+}
+/** Chrome-based browsers **/
+::-webkit-scrollbar {
+    background: transparent;
+    color: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: var(--tint);
+    color: var(--tint);
+    border-radius: .3rem;
+}
