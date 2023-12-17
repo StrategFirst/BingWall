@@ -25,6 +25,7 @@
 
 	<link type="text/css" rel="stylesheet" href="../style/page/api-doc.css" />
 
+    <script src="../scripts/api-page.js" defer></script>
 </head>
 
 <body>
@@ -35,11 +36,25 @@
             <b>Daily Resource list</b>
             <p>List all the resources scrapped this day.</p>
             <code contenteditable="false">/BingWall/resources/list.txt</code>
+            <output>
+            <p>For each line the absolute (relative to the app href base) path of each available daily image.There's no empty line at the end.</p>
+            </output>
+            
         </li>
         <li>
             <b>Daily Resource Metadata</b>
             <p>List all metadata about the resources scrapped this day.</p>
             <code contenteditable="false">/BingWall/resources/metadata.json</code>
+            <output>
+            <span>lat</span><span>String | null</span><i>Picture gps latitude, if able to find it.</i>
+            <span>long</span><span>String | null</span><i>Picture gps longitude, if able to find it.</i>
+            <span>url</span><span>String</span><i>Picture original url (bing)</i>
+            <span>desc</span><span>String</span><i>Full length image description from bing</i>
+            <span>title</span><span>String</span><i>Title given from Bing(it currently have sometimes a default value of Info due to an Bing error)</i>
+            <span>country</span><span>String</span><i>Country (or region) name wher bing display this image.</i>
+            <span>country_code</span><span>String[2]</span><i>Country (or region) code in two letters</i>
+            <span>file</span><span>String</span><i>Relative file path, without the `.webp` extention.</i>
+            </output>
         </li>
         <li>
             <b>Daily Resources</b>
@@ -50,11 +65,24 @@
             <b>Monthly Resource list</b>
             <p>List all the resources scrapped this month.</p>
             <code contenteditable="false">/BingWall/monthly-resources/list.txt</code>
+            <output>
+            <p>For each line the absolute (relative to the app href base) path of each available monthly image.There's no empty line at the end.</p>
+            </output>
         </li>
         <li>
             <b>Monthly Resource Metadata</b>
             <p>List all metadata about the resources scrapped this month.</p>
             <code contenteditable="false">/BingWall/monthly-resources/<data>DayIndex</data>/metadata.json</code>
+            <output>
+            <span>lat</span><span>String | null</span><i>Picture gps latitude, if able to find it.</i>
+            <span>long</span><span>String | null</span><i>Picture gps longitude, if able to find it.</i>
+            <span>url</span><span>String</span><i>Picture original url (bing)</i>
+            <span>desc</span><span>String</span><i>Full length image description from bing</i>
+            <span>title</span><span>String</span><i>Title given from Bing(it currently have sometimes a default value of Info due to an Bing error)</i>
+            <span>country</span><span>String</span><i>Country (or region) name wher bing display this image.</i>
+            <span>country_code</span><span>String[2]</span><i>Country (or region) code in two letters</i>
+            <span>file</span><span>String</span><i>Relative file path, without the `.webp` extention.</i>
+            </output>
         </li>
         <li>
             <b>Monthly Resources</b>
