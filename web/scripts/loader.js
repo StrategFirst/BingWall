@@ -23,13 +23,21 @@ function txtSourceCleanup( srcTxt ) {
         .replace( /\\u[0-9A-F]{4}/gi , x=>String.fromCharCode(parseInt(x[0].substring(2))) )
 }
 
+window.toDescDomCount=0
+
 function toDescDom( path , name ) {
     const METADATA = (DAILY_METADATA[name] != undefined) ? DAILY_METADATA : MONTHLY_METADATA
     let domElem = document.createElement('article')
     let descIte = METADATA[name].descriptions.values()
     let titleCleans = [... METADATA[name].titles.values()].filter( title => !(title.match(/^Info$/i)) )
     let titleIte = titleCleans[Symbol.iterator]()
+    let x;
     domElem.innerHTML = `
+    <div class="interact-panel">
+        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" id="desc-link-${x}"/> <div> <i class="local-icon">moon</i>   </div> </label>
+        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" id="desc-link-${x}"/> <div> <i class="local-icon">github</i> </div> </label>
+        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" id="desc-link-${x}"/> <div> <i class="local-icon">info</i>   </div> </label>
+    </div>
     ${
         (titleCleans.length > 0)
         ?
