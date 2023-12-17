@@ -13,3 +13,7 @@
 #map {
     height: clamp(20vh, 500px, 90vh);
 }
+
+#map .map_img_miniature {
+    width: 100%;
+}

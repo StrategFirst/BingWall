@@ -35,7 +35,7 @@ main > section > div {
     align-content: center;
 }
   
-img {
+main > section img {
     width: 100%;
     cursor: zoom-in;
 }
@@ -48,7 +48,7 @@ article p, article ul li {
     text-align: justify;
 }
 
-article ul {
+article ul {    
     margin-left: 1rem;
     list-style-type: '- ';
 }
