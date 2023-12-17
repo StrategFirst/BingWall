@@ -6,10 +6,13 @@ function change_lightmode( event ) {
 }
 
 function change_infomode( event ) {
-	if( event.target.checked )
-		document.querySelector(':root').classList.add('info')
-	else
-		document.querySelector(':root').classList.remove('info')
+	const a = document.createElement('a')
+	a.href = 'api/'
+	a.target = '_blank'
+	document.body.appendChild(a)
+	a.click()
+	document.body.removeChild(a)
+	event.target.checked = false
 }
 
 function change_sourcecode( event ) {
@@ -23,8 +26,22 @@ function change_sourcecode( event ) {
 }
 
 function change_localisation( event ) {
+	let target = document.querySelector(':root');
 	if( event.target.checked )
-		document.querySelector(':root').classList.remove('map-disabled')
+		target.classList.remove('map-disabled')
 	else
-		document.querySelector(':root').classList.add('map-disabled')
+		target.classList.add('map-disabled')
+}
+
+function change_description( event ) {
+	let target = event.target;
+	while(target.tagName != 'ARTICLE') {
+		if(target.tagName == 'BODY') return;
+
+		target = target.parentNode;
+	}
+	if( event.target.checked )
+		target.classList.add('description-shown')
+	else
+		target.classList.remove('description-shown')
 }

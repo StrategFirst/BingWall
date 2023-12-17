@@ -61,7 +61,7 @@ article ul li ~ li {
     grid-template-columns: repeat(auto-fit, 25rem 40rem );
 }
 
-:root:not(.info) article {
+article:not(.description-shown) .description-panel {
     display: none;
 }
 

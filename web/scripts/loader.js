@@ -34,10 +34,11 @@ function toDescDom( path , name ) {
     let x;
     domElem.innerHTML = `
     <div class="interact-panel">
-        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" id="desc-link-${x}"/> <div> <i class="local-icon">moon</i>   </div> </label>
-        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" id="desc-link-${x}"/> <div> <i class="local-icon">github</i> </div> </label>
-        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" id="desc-link-${x}"/> <div> <i class="local-icon">info</i>   </div> </label>
+        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_description(event)" id="desc-link-${x}" /> <div> <i class="local-icon">info</i>   </div> </label>
+        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_description(event)" id="desc-link-${x}" /> <div> <i class="local-icon">local</i> </div> </label>
+        <label class="neo-check" for="desc-link-${x=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_description(event)" id="desc-link-${x}" /> <div> <i class="local-icon">info</i>   </div> </label>
     </div>
+    <div class="description-panel">
     ${
         (titleCleans.length > 0)
         ?
@@ -103,7 +104,9 @@ function toDescDom( path , name ) {
         )
         :
         ''
-    }` 
+    }
+    </div>
+    ` 
 
     return domElem
 } 
@@ -160,6 +163,7 @@ async function getData( sourcePath , type ) {
             .map( (args) => [ toImageDom(...args) , toDescDom(...args) ] )
             ) )
         .then( domElements => Promise.all( domElements.map( domElement => insertDom( `main ${type} div` , ...domElement ) ) ) )
+        .then( updateLocalIcon )
         .then( () => document.querySelector(`${type}.loading`).classList.remove('loading') )
         .catch( (reason) => {
             console.error( reason );
