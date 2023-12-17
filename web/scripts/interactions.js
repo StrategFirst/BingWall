@@ -47,6 +47,24 @@ function change_description( event ) {
 }
 
 function change_findmarker( event ) {
+	// Make sure map is visible.
+	let map_enable = document.getElementById('localisation');
+	if(! map_enable.checked) map_enable.click();
+
+	// Get the target marker reference
+	let ref = event.target.getAttribute('markerid');
+	
+	// Make the popup appear
+	if(document.getElementById(ref) == null) {
+		document.querySelector(`img[title="${ref}"]`).click();
+	}
+
+	// Go to the popup
+	let target = document.getElementById(ref);
+	target.scrollIntoView({behavior:'smooth'});
+
+	// Finish
+	event.target.checked = false;
 }
 
 function change_downloadimg( event ) {

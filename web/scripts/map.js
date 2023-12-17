@@ -9,13 +9,13 @@ var markerIconDay = L.icon({
     iconUrl: 'assets/pointer.svg',
     iconSize: [36, 36],
     iconAnchor: [18, 35],
-    popupAnchor: [18, 0],
+    popupAnchor: [0, -26],
 })
 var markerIconMonth = L.icon({
     iconUrl: 'assets/pointer-old.svg',
     iconSize: [36, 36],
     iconAnchor: [18, 35],
-    popupAnchor: [0, -20],
+    popupAnchor: [0, -26],
 })
 
 /**
@@ -27,11 +27,17 @@ var markerIconMonth = L.icon({
  * @param {string} title The map marker title
  * @param {string} img_path Relative or absolute path to the referenced image for miniature usage
  * @param {boolean} old If old, this isn't a daily marker, change it's visual
- * @returns {string} A dom string storing the HTML with a anchor link to the generated marker
+ * @returns {string} The id string to reference this marker
  */
 function addMarker(lat, long, title, img_path, old) {
-    var marker = L.marker([lat, long],{icon:old?markerIconMonth:markerIconDay}).addTo(map);
     let anchor_name = `map_marker${title.replace(/[^a-zA-Z0-9_-]/ig,'')}`
+    var marker = L.marker(
+                            [lat, long],
+                            {
+                                icon: old ? markerIconMonth : markerIconDay,
+                                title: anchor_name,
+                            }
+                        ).addTo(map);
     marker.bindPopup(`<strong id="${anchor_name}">${title}</strong> <img class="map_img_miniature" src="${img_path}" />`);
-    return `<a href="#${anchor_name}" class="map-marker-link"> Emplacement sur la carte. </a>`;
+    return anchor_name;
 }

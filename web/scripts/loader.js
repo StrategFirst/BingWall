@@ -23,13 +23,39 @@ function toDummyDom( path, name) {
 }
 
 function toPanelDom( path, name ) {
+    
+    if(DAILY_METADATA[name] != undefined) {
+        md = DAILY_METADATA[name];
+        old = false;
+        
+    } else {
+        md = MONTHLY_METADATA[name];
+        old = true;
+    }
+
+
     let panel = document.createElement('div');
     panel.classList.add("interact-panel");
-    panel.innerHTML = `
-        <label class="neo-check" for="desc-link-${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_description(event)" id="desc-link-${ll}" /> <div> <i class="local-icon">info</i>     </div> </label>
-        <label class="neo-check" for="desc-link-${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_findmarker(event)" id="desc-link-${ll}" /> <div> <i class="local-icon">local</i>    </div> </label>
-        <label class="neo-check" for="desc-link-${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_downloadimg(event)" id="desc-link-${ll}" /> <div> <i class="local-icon">img-file</i> </div> </label>
-    `;
+    txt_dom = '';
+
+
+    txt_dom += `<label class="neo-check" for="desc-link-details${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_description(event)" id="desc-link-details${ll}" /> <div> <i class="local-icon">info</i>     </div> </label>`;
+
+    if(md.gps != null) {
+        let titleCleans = [... md.titles.values()].filter( title => !(title.match(/^Info$/i)) )[0]
+        let marker_ref_id = addMarker(
+            md.gps.lat,
+            md.gps.long,
+            titleCleans,
+            path,
+            old,
+        )
+        txt_dom += `<label class="neo-check" for="desc-link-local${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_findmarker(event)" id="desc-link-local${ll}" markerid="${marker_ref_id}"/> <div> <i class="local-icon">local</i>    </div> </label>`;
+    }
+    txt_dom += `<label class="neo-check" for="desc-link-file${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_downloadimg(event)" id="desc-link-file${ll}" /> <div> <i class="local-icon">img-file</i> </div> </label>`;
+    
+    panel.innerHTML = txt_dom;
+
     return panel;
 }
 
@@ -100,20 +126,6 @@ function toDescDom( path , name ) {
             ''
         }
         `
-        :
-        ''
-    }
-    ${
-        /**/
-        (METADATA[name].gps != null)
-        ?
-        addMarker(
-            METADATA[name].gps.lat,
-            METADATA[name].gps.long,
-            titleCleans.length>0 ? titleCleans[0] : '_',
-            path,
-            (DAILY_METADATA[name] != undefined)
-        )
         :
         ''
     }
