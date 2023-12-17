@@ -13,7 +13,7 @@ services:
     user: $UID:$GID
 
   web:
-    image: python:3
+    image: python:3.12-alpine
     working_dir: /var/www
     restart: on-failure:3
     volumes:
