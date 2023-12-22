@@ -1,12 +1,12 @@
 <div align="center" style="text-align: center;">
 
-### 4.6.0
+### 4.6.1
 # BingWall
 
 
 
 <img 
-	src="banner.png"
+	src="assets/banner.png"
 	style="height:4rem; width:clamp(4rem,100%,16rem); object-fit: cover;"
 	/>
 

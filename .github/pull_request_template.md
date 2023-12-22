@@ -20,3 +20,8 @@ Please verify that :
  - x
  - y
  - z
+
+## Other
+ - 1
+ - 2
+ - 3
