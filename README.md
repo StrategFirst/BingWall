@@ -6,7 +6,7 @@
 
 
 <img 
-	src="banner.png"
+	src="assets/banner.png"
 	style="height:4rem; width:clamp(4rem,100%,16rem); object-fit: cover;"
 	/>
 
