@@ -1,6 +1,6 @@
 <div align="center" style="text-align: center;">
 
-### 4.6.0
+### 4.6.1
 # BingWall
 
 
