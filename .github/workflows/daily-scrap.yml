@@ -60,7 +60,7 @@ jobs:
     - name: Packing up monthly
       run: ./pack-up.sh "${{ secrets.GITHUB_TOKEN }}"
 
-    - name: Archive resumt
+    - name: Archive result
       uses: actions/upload-artifact@v4
       with:
          name: "MonthlyPictures"
