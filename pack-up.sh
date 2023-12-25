@@ -14,22 +14,28 @@ artifactURLs=$(\
   | grep -E -o 'https:[^"]+/zip'
   )
 
-i=0
-mkdir MonthlyPictures tmp
-for artifactURL in $artifactURLs
-do
-	i=$(expr $i + 1)
+function data_dl() {
+	artifact_url=$1
+	artifact_day=$2
+
 	curl \
 	  --silent \
 	  --location \
-	  --output tmp.zip \
+	  --output tmp_$artifact_day.zip \
 	  -H "Authorization: Bearer $GITHUB_TOKEN" \
-	  $artifactURL
+	  $artifact_url
 
-	unzip tmp.zip -d tmp/ 2> /dev/null
-	mkdir MonthlyPictures/$i
-	mv tmp/* MonthlyPictures/$i/
-	rm tmp/.gitignore
-	rm tmp.zip
+	mkdir MonthlyPictures/$artifact_day/
+	unzip tmp_$artifact_day.zip -d MonthlyPictures/$artifact_day/ 2> /dev/null
+	rm -rf tmp_$artifact_day.zip
+}
+
+i=0
+mkdir MonthlyPictures
+for artifactURL in $artifactURLs
+do
+	i=$(expr $i + 1)
+	data_dl $artifactURL $i &
 done
-rm -r tmp
+wait
+
