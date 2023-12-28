@@ -2,7 +2,7 @@ name: Daily scrap ⏰
 
 on:
   schedule:
-    - cron:  '6 9 * * *'
+    - cron:  '0 6 * * *'
     
   # enable manual run
   workflow_dispatch:
