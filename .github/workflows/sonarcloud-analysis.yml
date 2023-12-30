@@ -20,6 +20,8 @@ jobs:
     environment:
       name: sonarcloud-analysis
 
+    if: ${{ github.actor != 'dependabot[bot]' }}
+
     steps:
       - name: Analyze with SonarCloud	
 
