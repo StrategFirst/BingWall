@@ -10,7 +10,7 @@ services:
      - ./monthly-resources:/var/monthly-resources
      - ./config:/etc/scrapconfig
     entrypoint: sh local.sh
-    user: $UID:$GID
+    user: $IDU:$IDG
 
   web:
     image: python:3.12-alpine
