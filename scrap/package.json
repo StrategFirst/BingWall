@@ -1,6 +1,6 @@
 {
   "name": "botwallbing",
-  "version": "4.6.5",
+  "version": "4.6.6",
   "type": "module",
   "dependencies": {
     "node-html-parser": "^6.1.13"
