@@ -61,7 +61,7 @@ async function get_GPS( origin_DOM, origin_HTML ) {
 						.then( dom => dom.querySelector('#mv_baseMap')
 											.getAttribute('src')
 											// Extract from the small element the GPS coords
-											.match(/([0-9]+\.[0-9]+),([0-9]+\.[0-9]+)/) )
+											.match(/(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+)/) )
 						// Handle crashes
 						.catch( () => [null, null, null] )
 		// Safe guards
@@ -93,7 +93,7 @@ async function get_GPS( origin_DOM, origin_HTML ) {
  * 
  * @param {Document} origin_DOM
  * @param {string} origin_HTML
- * @return {Promise<{url: string | null;desc: string | null;title: string | null;}>}
+ * @return {Promise<{url: string | null;desc: string | null;title: string | null;credit: string | null;}>}
  * 
  */
 async function get_OGP( origin_DOM, origin_HTML ) {
@@ -119,10 +119,13 @@ async function get_OGP( origin_DOM, origin_HTML ) {
 			console.error( err )
 		}
 
+		const picture_credit = origin_DOM.querySelector('.copyright#copyright')?.innerText || null;
+
 		return {
 			url: OGP_key_value_pair["og:image"],
 			desc: OGP_key_value_pair["og:description"],
 			title: OGP_key_value_pair["og:title"],
+			credit: picture_credit,
 		};
 	} catch(err) {
 		console.error( err )
@@ -139,7 +142,7 @@ async function get_OGP( origin_DOM, origin_HTML ) {
 /**
  * For all the countries within the config extract a bunch of metadata
  * 
- * @return {Promise<[{lat: string | null;long: string | null; url: string; file: string; desc: string | null;title: string | null;}]>}
+ * @return {Promise<[{lat: string | null;long: string | null; url: string; file: string; desc: string | null;title: string | null;credit: string | null;}]>}
  * 
  */
 async function TodayMetadata() {
@@ -187,7 +190,7 @@ async function TodayMetadata() {
  * From all the listed metadata get the corresponding data locally!
  * 
  * JSDoc :
- * @param {[{lat: string | null;long: string | null; url: string; file: string; desc: string | null;title: string | null;}]} metadata
+ * @param {[{lat: string | null;long: string | null; url: string; file: string; desc: string | null;title: string | null;credit: string | null;}]} metadata
  * @return {Promise<void>}
  */
 async function TodayData( metadata ) {

@@ -129,6 +129,8 @@ function toDescDom( path , name ) {
         :
         ''
     }
+    <h3> Credit </h3>
+    <p> ${METADATA[name].credit} </p>
     </div>
     ` 
 
@@ -153,7 +155,7 @@ function waitLoad( img ) {
 function reshapeMetadata( arr ) {
     return arr.reduce( (result,entry) => { 
         if( result[entry.file] == undefined ) {
-            result[entry.file] = { countries: new Set() , descriptions: new Set() , titles: new Set(), gps: null }
+            result[entry.file] = {countries: new Set(), descriptions: new Set(), titles: new Set(), gps: null, credit: null}
         }
         if(
             result[entry.file].gps === null &&
@@ -164,6 +166,12 @@ function reshapeMetadata( arr ) {
         }
         result[entry.file].countries.add( entry.country )
         result[entry.file].descriptions.add( entry.desc )
+        if(
+            result[entry.file].credit === null &&
+            entry.credit != null
+        ) {
+            result[entry.file].credit = entry.credit
+        }
         if( entry.title )
             result[entry.file].titles.add( entry.title )
         return result
