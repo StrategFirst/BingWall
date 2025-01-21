@@ -129,8 +129,15 @@ function toDescDom( path , name ) {
         :
         ''
     }
+    <br/>
     <h3> Credit </h3>
-    <p> ${METADATA[name].credit} </p>
+    ${
+        (METADATA[name].credit != null)
+        ?
+        `<p> ${METADATA[name].credit} </p>`
+        :
+        '<p> Crédit inconnu </p>'
+    }
     </div>
     ` 
 
