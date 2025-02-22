@@ -63,7 +63,7 @@ async function get_GPS( origin_DOM, origin_HTML ) {
 											// Extract from the small element the GPS coords
 											.match(/(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+)/) )
 						// Handle crashes
-						.catch( () => [null, null, null] )
+						.catch( (err) => { console.error(err); return [null, null, null]; } )
 		// Safe guards
 		if( GPS_coord == null ) {
 			GPS_coord = [null, null, null]
