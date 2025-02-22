@@ -54,7 +54,10 @@ async function get_GPS( origin_DOM, origin_HTML ) {
 		// Extract the link of this button :
 		const location_path = location_btn.parentNode.parentNode.getAttribute('href');
 		// Get the linked page :
-		let GPS_coord = await fetch(`https://bing.com${location_path}`)
+		let GPS_coord = await fetch(
+							`https://bing.com${location_path}`,
+							{headers: {'User-Agent': 'NodeJS'}}
+						)
 						.then( res => res.text() )
 						.then( txt => parse(txt) )
 						// Find the display map widget
@@ -63,7 +66,7 @@ async function get_GPS( origin_DOM, origin_HTML ) {
 											// Extract from the small element the GPS coords
 											.match(/(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+)/) )
 						// Handle crashes
-						.catch( () => [null, null, null] )
+						.catch( (err) => { console.error(err); return [null, null, null]; } )
 		// Safe guards
 		if( GPS_coord == null ) {
 			GPS_coord = [null, null, null]
