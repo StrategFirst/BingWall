@@ -54,7 +54,10 @@ async function get_GPS( origin_DOM, origin_HTML ) {
 		// Extract the link of this button :
 		const location_path = location_btn.parentNode.parentNode.getAttribute('href');
 		// Get the linked page :
-		let GPS_coord = await fetch(`https://bing.com${location_path}`)
+		let GPS_coord = await fetch(
+							`https://bing.com${location_path}`,
+							{headers: {'User-Agent': 'NodeJS'}}
+						)
 						.then( res => res.text() )
 						.then( txt => parse(txt) )
 						// Find the display map widget
