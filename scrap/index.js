@@ -58,7 +58,7 @@ async function get_GPS( origin_DOM, origin_HTML ) {
 						.then( res => res.text() )
 						.then( txt => parse(txt) )
 						// Find the display map widget
-						.then( dom => dom.querySelector('#mv_baseMap')
+						.then( dom => dom.querySelector('.mv_baseMap')
 											.getAttribute('src')
 											// Extract from the small element the GPS coords
 											.match(/(-?[0-9]+\.[0-9]+),(-?[0-9]+\.[0-9]+)/) )
