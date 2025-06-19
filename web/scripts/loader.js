@@ -42,7 +42,12 @@ function toPanelDom( path, name ) {
     txt_dom += `<label class="neo-check" for="desc-link-details${ll=(window.toDescDomCount+=1)}"> <input type="checkbox" onchange="change_description(event)" id="desc-link-details${ll}" /> <div> <i class="local-icon">info</i>     </div> </label>`;
 
     if(md.gps != null) {
-        let titleCleans = [... md.titles.values()].filter( title => !(title.match(/^Info$/i)) )[0]
+        let titleCleans = [... md.titles.values()].filter( title => !(title.match(/^Info$/i)) )[0];
+        if( titleCleans == undefined ) {
+            titleCleans = 'Missing Clean Title';
+            console.warn('Missing clean title');
+            console.trace();
+        }
         let marker_ref_id = addMarker(
             md.gps.lat,
             md.gps.long,
