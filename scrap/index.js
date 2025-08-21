@@ -19,6 +19,8 @@ class BingWallError extends Error {
  * Download from the given `webURL` a file and
  * write it to `localPath`
  * 
+ * Be aware that no header are injected for this !
+ * 
  * JSDoc :
  * 
  * @param {Document} webURL
@@ -56,7 +58,7 @@ async function get_GPS( origin_DOM, origin_HTML ) {
 		// Get the linked page :
 		let GPS_coord = await fetch(
 							`https://bing.com${location_path}`,
-							{headers: {'User-Agent': 'NodeJS'}}
+							{headers: {'User-Agent': 'Now/You See/Me2'}}
 						)
 						.then( res => res.text() )
 						.then( txt => parse(txt) )
@@ -157,7 +159,7 @@ async function TodayMetadata() {
 						// Grab the page content
 						const HTMLPage = await fetch(
 							`https://www.bing.com?cc=${country.code}`,
-							{headers: {'User-Agent': 'NodeJS'}}
+							{headers: {'User-Agent': 'Now/You See/Me2'}}
 						).then( res => res.text() );
 
 						// Use metadata finder :
