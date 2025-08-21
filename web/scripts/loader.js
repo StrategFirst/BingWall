@@ -214,8 +214,9 @@ async function getData( sourcePath , type ) {
         .catch( (reason) => {
             console.error( reason );
             console.error( `An error occured for the above reason please consider reaching out our services by creating an ticket on https://github.com/StrategFirst/BingWall/issues/new/choose with the above information and any other usefull information folowing the given rules. Thanks.`)
-            document.querySelector(`${type}.loading`).classList.remove('loading')
-            document.querySelector(`${type}.loading`).classList.add('laoding-failure')
+            const target = document.querySelector(`${type}.loading`);
+            target.classList.remove('loading');
+            target.classList.add('loading-failure');
         })
 }
 
