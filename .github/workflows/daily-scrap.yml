@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - name: Checkout project
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
       
     - name: Get node v20.x
       uses: actions/setup-node@v4
@@ -55,7 +55,7 @@ jobs:
 
     steps:
     - name: Checkout project
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Packing up monthly
       run: ./pack-up.sh "${{ secrets.GITHUB_TOKEN }}"
@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout project
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         
       - name: Setup Pages
         uses: actions/configure-pages@v5
