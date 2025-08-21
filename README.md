@@ -17,7 +17,7 @@
 
 #### Actions
 [![Daily Badge](https://github.com/StrategFirst/BingWall/actions/workflows/daily-scrap.yml/badge.svg)](https://github.com/StrategFirst/BingWall/actions/workflows/daily-scrap.yml/)
-[![Daily Badge](https://github.com/StrategFirst/BingWall/actions/workflows/sonarcloud-analysis.yml/badge.svg)](https://github.com/StrategFirst/BingWall/actions/workflows/sonarcloud-analysis.yml/)
+[![Analysis Badge](https://github.com/StrategFirst/BingWall/actions/workflows/sonarqube-analysis.yml/badge.svg)](https://github.com/StrategFirst/BingWall/actions/workflows/sonarqube-analysis.yml/)
 
 #### Code quality
 
