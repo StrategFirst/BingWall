@@ -108,7 +108,7 @@ jobs:
         run: mv monthly-resources/ web/ 
         
       - name: Upload artifact for GitHub Pages
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v4
         with:
           path: 'web'
           
