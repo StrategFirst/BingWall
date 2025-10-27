@@ -42,7 +42,7 @@ jobs:
       run: cd scrap/ && node .
       
     - name: Archive result
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
          name: "DailyPictures"
          path: /var/resources/*
@@ -61,7 +61,7 @@ jobs:
       run: ./pack-up.sh "${{ secrets.GITHUB_TOKEN }}"
 
     - name: Archive result
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
          name: "MonthlyPictures"
          path: MonthlyPictures
